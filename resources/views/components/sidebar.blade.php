@@ -18,7 +18,7 @@
                             class="fas fa-folder"></i><span>Category</span></a>
                 </li>
                 <li class="nav-item dropdown">
-                    <a href="#" class="nav-link"><i
+                    <a href="{{ route('question.index') }}" class="nav-link"><i
                             class="fas fa-newspaper"></i><span>News</span></a>
                 </li>
             </ul>

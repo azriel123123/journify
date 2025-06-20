@@ -1,21 +1,44 @@
 <?php
 
 use App\Http\Controllers\Admin\CategoryController;
-use App\Http\Controllers\homeController;
-use App\Http\Controllers\registerController;
+use App\Http\Controllers\Admin\QuestionController;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\RegisterController;
 use Illuminate\Support\Facades\Route;
+
+/*
+|--------------------------------------------------------------------------
+| Halaman Awal & Register
+|--------------------------------------------------------------------------
+*/
 
 Route::get('/', function () {
     return view('pages.auth.login');
 });
 
-Route::get('/home', [homeController::class, 'index'])->name('home');
-Route::get('/register', [registerController::class, 'create'])->name('register');
+Route::get('/register', [RegisterController::class, 'create'])->name('register');
 
-Route::resource('category', CategoryController::class);
+/*
+|--------------------------------------------------------------------------
+| Halaman Setelah Login (Dashboard Umum)
+|--------------------------------------------------------------------------
+*/
 
-// aktifin klo pronen udh jadi
+Route::middleware(['auth'])->group(function () {
+    Route::get('/home', [HomeController::class, 'index'])->name('home');
+});
 
-// Route::middleware(['auth', 'role:admin'])->get('/dashboard', function () {
-//     return view('admin.dashboard');
-// });
+/*
+|--------------------------------------------------------------------------
+| Admin Route (Role: Admin Saja)
+|--------------------------------------------------------------------------
+*/
+
+Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
+    Route::get('/dashboard', function () {
+        return view('admin.dashboard');
+    })->name('admin.dashboard');
+
+    Route::resource('category', CategoryController::class);
+    Route::resource('question', QuestionController::class);
+});

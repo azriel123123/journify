@@ -12,7 +12,7 @@
     <div class="main-content">
         <section class="section">
             <div class="section-header">
-                <h1>Category</h1>
+                <h1>Mood</h1>
                 <div class="section-header-button">
                     <a href="{{ route('category.create') }}" class="btn btn-primary"><i class="far fa-edit"></i> Create</a>
                 </div>
@@ -20,7 +20,7 @@
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4>Category Table Data</h4>
+                        <h4>Mood Table Data</h4>
                     </div>
                     <div class="card-body p-0">
                         <div class="table-responsive">
