@@ -8,6 +8,6 @@ class registerController extends Controller
 {
     public function create()
     {
-        return view('pages.register');
+        return view('pages.auth.register');
     }
 }

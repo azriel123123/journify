@@ -10,12 +10,16 @@
             <ul class="sidebar-menu">
                 <li class="menu-header">Dashboard</li>
                 <li class="nav-item dropdown">
-                    <a href="#" class="nav-link has-dropdown"><i class="fas fa-fire"></i><span>Dashboard</span></a>
-                    <ul class="dropdown-menu">
-                        <li>
-                            <a class="nav-link" href="{{ url('dashboard-general-dashboard') }}">General Dashboard</a>
-                        </li>
-                    </ul>
+                    <a href="{{ route('home') }}" class="nav-link"><i
+                            class="fas fa-fire"></i><span>Dashboard</span></a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a href="{{ route('category.index') }}" class="nav-link"><i
+                            class="fas fa-folder"></i><span>Category</span></a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a href="#" class="nav-link"><i
+                            class="fas fa-newspaper"></i><span>News</span></a>
                 </li>
             </ul>
         </div>
@@ -23,7 +27,8 @@
         <div style="margin-top: auto; padding: 20px;">
             <form method="POST" action="{{ route('logout') }}">
                 @csrf
-                <button type="submit" class="btn btn-danger btn-block" style="display: flex; align-items: center; justify-content: center;">
+                <button type="submit" class="btn btn-danger btn-block"
+                    style="display: flex; align-items: center; justify-content: center;">
                     <i class="fas fa-sign-out-alt" style="margin-right: 8px;"></i> Logout
                 </button>
             </form>
