@@ -12,30 +12,48 @@
     <div class="main-content">
         <section class="section">
             <div class="section-header">
-                <h1>Create Category</h1>
+                <h1>Edit Category</h1>
                 <div class="section-header-button">
-                    <a href="{{ route('category.index') }}" class="btn btn-danger"><i class="fa-solid fa-backward"></i>
-                         Back</a>
+                    <a href="{{ route('category.index') }}" class="btn btn-danger">
+                        <i class="fa-solid fa-backward"></i> Back
+                    </a>
                 </div>
             </div>
             <div class="col-12">
                 <div class="card">
                     <div class="card-header">
-                        <h4>Input Text</h4>
+                        <h4>Update Data</h4>
                     </div>
-                   <form action="{{ route('category.update', $category->id) }}" method="POST">
-                    @csrf
-                    @method('PUT')
-                     <div class="card-body">
-                        <div class="form-group">
-                            <label>Default Input Text</label>
-                            <input type="text" class="form-control" name="name">
+
+                    <form action="{{ route('category.update', $category->id) }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        @method('PUT')
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label>Category Name</label>
+                                <input type="text" class="form-control" name="name" value="{{ $category->name }}">
+                            </div>
+
+                            <div class="form-group mt-3">
+                                <label>Change Image (optional)</label>
+                                <input type="file" class="form-control-file" name="image">
+                            </div>
+
+                            @if ($category->image)
+                                <div class="form-group mt-3">
+                                    <label>Current Image:</label><br>
+                                    <img src="{{ asset('storage/' . $category->image) }}" width="150" alt="Current Image">
+                                </div>
+                            @endif
+
+                            <div class="section-button mt-4">
+                                <button type="submit" class="btn btn-primary">
+                                    <i class="fas fa-save"></i> Update
+                                </button>
+                            </div>
                         </div>
-                        <div class="section-button">
-                            <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> create</button>
-                        </div>
-                    </div>
-                   </form>
+                    </form>
+
                 </div>
             </div>
         </section>

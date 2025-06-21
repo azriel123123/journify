@@ -11,6 +11,6 @@ class homeController extends Controller
     public function index()
     {
 
-        return view('pages.dashboard');
+        return view('frontend.homepage1.index');
     }
 }

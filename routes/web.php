@@ -1,47 +1,62 @@
 <?php
 
+use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
+use App\Http\Controllers\RegisterController;
+use App\Http\Controllers\frontEnd\frontEndController;
 use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\QuestionController;
-use App\Http\Controllers\HomeController;
 use App\Http\Controllers\Admin\LaguController;
-use App\Http\Controllers\RegisterController;
-use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\QuoteController;
+use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
+use Laravel\Fortify\Http\Controllers\RegisteredUserController;
 
 /*
 |--------------------------------------------------------------------------
-| Halaman Awal & Register
+| Halaman Publik
 |--------------------------------------------------------------------------
 */
 
+// Halaman homepage1 (sebelum login)
 Route::get('/', function () {
-    return view('pages.auth.login');
+    return view('frontend.homepage1.index');
 });
 
-Route::get('/register', [RegisterController::class, 'create'])->name('register');
+// Route login dan register pakai Fortify (GET View)
+Route::get('/login', [AuthenticatedSessionController::class, 'create'])->name('login');
+Route::post('/login', [AuthenticatedSessionController::class, 'store']);
+Route::post('/logout', [AuthenticatedSessionController::class, 'destroy'])->name('logout');
+
+
+// Kalau kamu ingin tetap pakai register Fortify bawaan dan override view-nya:
+Route::get('/register', [RegisteredUserController::class, 'create'])->name('register');
+Route::post('/register', [RegisteredUserController::class, 'store']);
 
 /*
 |--------------------------------------------------------------------------
-| Halaman Setelah Login (Umum, untuk semua role)
+| Halaman Setelah Login (Semua Role)
 |--------------------------------------------------------------------------
 */
-
-Route::middleware(['auth'])->group(function () {
+Route::middleware('auth')->group(function () {
+    Route::get('/journal', [frontEndController::class, 'index'])->name('journal');
     Route::get('/home', [HomeController::class, 'index'])->name('home');
+    Route::get('/journal', [frontEndController::class, 'index'])->name('journal');
+    Route::get('/journal/create/{category}', [frontEndController::class, 'create'])->name('journal.create');
+    Route::post('/journal/create/{category}', [frontEndController::class, 'store'])->name('journal.store');
 });
 
 /*
 |--------------------------------------------------------------------------
-| Admin Only Routes (Category, Question, Lagu)
+| Admin Only
 |--------------------------------------------------------------------------
 */
-
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     Route::get('/dashboard', function () {
-        return view('admin.dashboard');
+        return view('pages.dashboard');
     })->name('admin.dashboard');
 
     Route::resource('category', CategoryController::class);
     Route::resource('question', QuestionController::class);
     Route::resource('song', LaguController::class);
-    Route::resource('quote', \App\Http\Controllers\Admin\QuoteController::class);
+    Route::resource('quote', QuoteController::class);
 });

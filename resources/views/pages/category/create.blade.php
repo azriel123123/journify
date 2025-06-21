@@ -14,8 +14,7 @@
             <div class="section-header">
                 <h1>Create Category</h1>
                 <div class="section-header-button">
-                    <a href="{{ route('category.index') }}" class="btn btn-danger"><i class="fa-solid fa-backward"></i>
-                         Back</a>
+                    <a href="{{ route('category.index') }}" class="btn btn-danger"><i class="fa-solid fa-backward"></i> Back</a>
                 </div>
             </div>
             <div class="col-12">
@@ -23,19 +22,27 @@
                     <div class="card-header">
                         <h4>Input Text</h4>
                     </div>
-                   <form action="{{ route('category.store') }}" method="POST">
-                    @csrf
-                    @method('POST')
-                     <div class="card-body">
-                        <div class="form-group">
-                            <label>Default Input Text</label>
-                            <input type="text" class="form-control" name="name">
+
+                    <form action="{{ route('category.store') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        @method('POST')
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label>Category Name</label>
+                                <input type="text" class="form-control" name="name">
+                            </div>
+
+                            <div class="form-group">
+                                <label>Category Image</label>
+                                <input type="file" class="form-control-file" name="image">
+                            </div>
+
+                            <div class="section-button mt-4">
+                                <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> Create</button>
+                            </div>
                         </div>
-                        <div class="section-button">
-                            <button type="submit" class="btn btn-primary"><i class="fas fa-save"></i> create</button>
-                        </div>
-                    </div>
-                   </form>
+                    </form>
+
                 </div>
             </div>
         </section>

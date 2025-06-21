@@ -32,7 +32,7 @@
                         </h4>
                         <p class="text-muted">Before you get started, you must login or register if you don't already
                             have an account.</p>
-                        <form method="POST" action="{{ route('login.store') }}" class="needs-validation" novalidate="">
+                        <form method="POST" action="{{ route('login') }}" class="needs-validation" novalidate="">
                             @csrf
                             <div class="form-group">
                                 <label for="email">Email</label>
@@ -76,7 +76,7 @@
                             </div>
 
                             <div class="mt-5 text-center">
-                                Don't have an account? <a href="{{ route('register.store') }}">Create new one</a>
+                                Don't have an account? <a href="{{ route('register') }}">Create new one</a>
                             </div>
                         </form>
 

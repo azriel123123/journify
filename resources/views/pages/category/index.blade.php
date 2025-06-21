@@ -27,29 +27,49 @@
                             <table class="table-striped table-md table">
                                 <tr>
                                     <th>No.</th>
+                                    <th>Image</th>
                                     <th>Name</th>
                                     <th>Action</th>
                                 </tr>
-                                 @foreach ($categories as $category)
+                                @foreach ($categories as $category)
                                     <tr>
                                         <td>{{ $loop->iteration }}</td>
+                            
+                                        <td>
+                                            @if ($category->image)
+                                                <img src="{{ asset('storage/' . $category->image) }}" alt="Image" width="70" class="rounded">
+                                            @else
+                                                <span class="text-muted">No image</span>
+                                            @endif
+                                        </td>
+                            
                                         <td>{{ $category->name }}</td>
-                                          <td>
-                                            <a href="{{ route('category.edit', $category->id) }}" class="btn btn-icon btn-success"><i
-                                                    class="far fa-edit"></i></a>
+                            
+                                        <td>
+                                            <a href="{{ route('category.edit', $category->id) }}" class="btn btn-icon btn-success">
+                                                <i class="far fa-edit"></i>
+                                            </a>
+                            
                                             <a href="#"
-                                                onclick="event.preventDefault();
-                                                        document.getElementById('delete-form-{{ $category->id }}').submit();"
-                                                class="btn btn-icon btn-danger"><i class="fa-solid fa-trash"></i></a>
+                                                onclick="event.preventDefault(); document.getElementById('delete-form-{{ $category->id }}').submit();"
+                                                class="btn btn-icon btn-danger">
+                                                <i class="fa-solid fa-trash"></i>
+                                            </a>
+                            
                                             <form action="{{ route('category.destroy', $category->id) }}" method="POST"
                                                 id="delete-form-{{ $category->id }}" style="display:none;">
-                                                @csrf @method('DELETE')
+                                                @csrf
+                                                @method('DELETE')
                                             </form>
-                                            <a href="{{ route('category.show', $category->id) }}" class="btn btn-icon btn-info"><i class="fa-solid fa-eye"></i></a>
+                            
+                                            <a href="{{ route('category.show', $category->id) }}" class="btn btn-icon btn-info">
+                                                <i class="fa-solid fa-eye"></i>
+                                            </a>
                                         </td>
                                     </tr>
                                 @endforeach
                             </table>
+                            
                         </div>
                     </div>
                     <div class="card-footer text-right">
