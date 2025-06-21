@@ -13,12 +13,22 @@ class Category extends Model
         'name',
     ];
 
-    public function user(){
+    public function user()
+    {
         return $this->belongsTo(User::class);
     }
 
-    public function question(){
+    public function question()
+    {
         return $this->hasMany(Question::class);
     }
-
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
+    
+    public function lagus()
+    {
+        return $this->hasMany(Lagu::class);
+    }
 }
