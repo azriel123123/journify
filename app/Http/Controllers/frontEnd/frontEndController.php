@@ -16,15 +16,19 @@ class frontEndController extends Controller
     {
         $categories = Category::all();
         $journals = Journal::where('user_id', auth()->id())->latest()->get();
-        $lagu = Lagu::latest()->first();
+        $laguList = Lagu::all();
+        $currentLagu = $laguList->first(); // lagu pertama sebagai default
 
-        return view('frontend.homepage2.index', compact('categories', 'journals', 'lagu'));
+        return view('frontend.homepage2.index', compact('categories', 'journals', 'laguList', 'currentLagu'));
     }
 
     public function create(Category $category)
     {
-        $lagu = Lagu::latest()->first();
+          $laguList = Lagu::all();
+        $currentLagu = $laguList->first(); // lagu pertama sebagai default
+
         $questions = Question::where('category_id', $category->id)->first();
+
 
         if (!$questions) {
             return redirect()->route('journal')->with('error', 'No questions found for this category.');
@@ -33,9 +37,9 @@ class frontEndController extends Controller
         return view('frontend.homepage2.create', [
             'questions' => $questions,
             'category' => $category
-        ], compact('lagu'));
+        ], compact('laguList', 'currentLagu'));
     }
-    public function store(Request $request, Category $category)
+    public function         store(Request $request, Category $category)
     {
         $request->validate([
             'title' => 'required|string|max:255',
@@ -57,9 +61,63 @@ class frontEndController extends Controller
 
         return redirect()->route('journal')->with('success', 'Journal has been saved.');
     }
-
-    public function show()
+    public function edit(Category $category,$id)
     {
-        return view('frontend.homepage2.read');
+        $journal = Journal::where('id', $id)
+        ->where('user_id', Auth::id())
+        ->firstOrFail();
+
+    $questions = Question::where('category_id', $category->id)->first();
+
+     $laguList = Lagu::all();
+        $currentLagu = $laguList->first(); // lagu pertama sebagai default
+
+
+    return view('frontend.homepage2.read', compact(
+        'journal',
+        'category',
+        'questions',
+        'laguList',
+        'currentLagu'
+    ));
+    }
+
+
+   public function update(Request $request, Category $category, $id){
+    $request->validate([
+        'title' => 'required|string|max:255',
+        'answer1' => 'required|string',
+        'answer2' => 'required|string',
+        'answer3' => 'required|string',
+        'description' => 'nullable|string',
+    ]);
+
+    $journal = Journal::findOrFail($id);
+
+    // Cek apakah journal ini milik user yang sedang login (opsional, tapi aman)
+    if ($journal->user_id !== Auth::id()) {
+        abort(403, 'Unauthorized');
+    }
+
+    $journal->update([
+        'category_id' => $category->id,
+        'title' => $request->title,
+        'answer1' => $request->answer1,
+        'answer2' => $request->answer2,
+        'answer3' => $request->answer3,
+        'description' => $request->description,
+    ]);
+
+    return redirect()->route('journal')->with('success', 'Journal has been updated.');
+}
+
+    public function play($id)
+    {
+        $currentLagu = Lagu::findOrFail($id);
+        $laguList = Lagu::where('id', '!=', $id)->get(); // sisanya jadi playlist
+        $categories = Category::all();
+        $journals = Journal::where('user_id', auth()->id())->latest()->get();
+
+        return view('frontend.homepage2.index', compact('laguList', 'currentLagu', 'categories', 'journals'));
     }
 }

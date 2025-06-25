@@ -50,6 +50,7 @@ class LaguController extends Controller
             'penyanyi' => 'required',
             'file' => 'required|mimes:mp3',
             'category_id' => 'required|exists:categories,id',
+            'image' => 'required|image|mimes:jpeg,png,jpg,webp|max:2048',
         ]);
 
         if ($request->hasFile('file')) {
@@ -57,11 +58,17 @@ class LaguController extends Controller
             $filePath = $file->store('lagu', 'public');
         }
 
+        if ($request->hasFile('image')) {
+            $image = $request->file('image');
+            $imagePath = $image->store('lagu', 'public');
+        }
+
         Lagu::create([
             'judul' => $request->judul,
             'penyanyi' => $request->penyanyi,
             'file' => $filePath,
             'category_id' => $request->category_id,
+            'image' => $imagePath
         ]);
 
         return redirect()->route('song.index')->with('success', 'Lagu berhasil diupload.');

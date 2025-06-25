@@ -1,148 +1,163 @@
-ini view <!-- resources/views/journal/view.blade.php -->
 <!DOCTYPE html>
 <html lang="en">
 
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>View Journal</title>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
-  <script>
-    tailwind.config = {
-      theme: {
-        extend: {
-          fontFamily: {
-            inter: ['Inter', 'sans-serif']
-          }
-        }
-      }
-    };
-  </script>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Create Journal</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        inter: ['Inter', 'sans-serif']
+                    }
+                }
+            }
+        };
+    </script>
 </head>
 
 <body class="bg-gradient-to-tr from-indigo-100 via-pink-100 to-yellow-100 min-h-screen text-gray-900 font-inter">
-  <div class="max-w-7xl mx-auto px-4 py-10 flex flex-col md:flex-row gap-10">
-    <!-- Main Content -->
-    <main class="flex-1">
-      <section class="mx-4 md:mx-8 mb-10">
-        <!-- Back Button -->
-        <div class="mb-6">
-          <button onclick="history.back()"
-            class="inline-flex items-center text-indigo-700 hover:text-indigo-900 font-semibold transition text-base">
-            <i class="fas fa-arrow-left mr-2"></i> Back
-          </button>
-        </div>
 
-        <!-- Title -->
-        <h2 class="text-3xl font-extrabold mb-8 text-indigo-800 drop-shadow-md">View Journal</h2>
+    <div class="max-w-7xl mx-auto px-4 py-10 flex flex-col md:flex-row gap-10">
+        <!-- Main Content -->
+        <main class="flex-1">
+            <section class="mx-4 md:mx-8 mb-10">
+                <!-- Tombol Back -->
+                <div class="mb-6">
+                    <button onclick="history.back()"
+                        class="inline-flex items-center text-indigo-700 hover:text-indigo-900 font-semibold transition text-base">
+                        <i class="fas fa-arrow-left mr-2"></i> Back
+                    </button>
+                </div>
 
-        <!-- Form -->
-        <form class="space-y-10 bg-white/40 border border-white/30 backdrop-blur-2xl rounded-3xl shadow-xl p-8">
+                <!-- Judul -->
+                <h2 class="text-3xl font-extrabold mb-8 text-indigo-800 drop-shadow-md">Read & Edit Journal</h2>
 
-          <!-- Judul -->
-          <div>
-            <label class="block text-lg font-semibold text-indigo-800 mb-2">Title</label>
-            <input id="title" type="text" disabled value="My Peaceful Sunday"
-              class="editable w-full p-4 rounded-xl border border-indigo-200 bg-white/60 shadow-inner focus:outline-none focus:ring-2 focus:ring-indigo-300" />
-            <div class="mt-2 text-right">
-              <button type="button" onclick="toggleEdit('title')" class="edit-btn px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-semibold shadow">Edit</button>
-            </div>
-          </div>
+                <form method="POST" action="{{ route('journal.update', ['category' => $journal->category_id, 'id' => $journal->id]) }}"
+                    class="space-y-5 bg-white/40 border border-white/30 backdrop-blur-2xl rounded-3xl shadow-xl p-8">
+                    @csrf
+                    @method('PUT')
 
-          <!-- Question 1 -->
-          <div>
-            <label class="block text-lg font-semibold text-indigo-800 mb-2">How do you feel today?</label>
-            <textarea id="q1" rows="3" disabled
-              class="editable w-full p-4 rounded-xl border border-indigo-200 bg-white/60 shadow-inner resize-none focus:outline-none focus:ring-2 focus:ring-indigo-300">I'm feeling calm and content today.</textarea>
-            <div class="mt-2 text-right">
-              <button type="button" onclick="toggleEdit('q1')" class="edit-btn px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-semibold shadow">Edit</button>
-            </div>
-          </div>
+                    <!-- Judul Jurnal -->
+                    <div>
+                        <label class="block text-lg font-semibold text-indigo-800 mb-2">Journal Title</label>
+                        <input type="text" name="title"
+                            class="w-full p-4 rounded-xl border border-indigo-200 bg-white/60 focus:outline-none focus:ring-2 focus:ring-indigo-300 shadow-inner"
+                            placeholder="Enter your journal title..." value="{{ old('title', $journal->title) }}" required />
+                    </div>
 
-          <!-- Question 2 -->
-          <div>
-            <label class="block text-lg font-semibold text-indigo-800 mb-2">Highlight of the Day</label>
-            <textarea id="q2" rows="3" disabled
-              class="editable w-full p-4 rounded-xl border border-indigo-200 bg-white/60 shadow-inner resize-none focus:outline-none focus:ring-2 focus:ring-indigo-300">Watching the sunset with a cup of tea.</textarea>
-            <div class="mt-2 text-right">
-              <button type="button" onclick="toggleEdit('q2')" class="edit-btn px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-semibold shadow">Edit</button>
-            </div>
-          </div>
+                    <!-- Pertanyaan 1 -->
+                    <div>
+                        <label
+                            class="block text-lg font-semibold text-indigo-800 mb-2">{{ $questions->question1 }}</label>
+                        <textarea name="answer1" rows="3"
+                            class="w-full p-4 rounded-xl border border-indigo-200 bg-white/60 focus:outline-none focus:ring-2 focus:ring-indigo-300 resize-none shadow-inner"
+                            placeholder="Your answer..." required>{{ old('answer1', $journal->answer1) }}</textarea>
+                    </div>
 
-          <!-- Question 3 -->
-          <div>
-            <label class="block text-lg font-semibold text-indigo-800 mb-2">What are you grateful for?</label>
-            <textarea id="q3" rows="3" disabled
-              class="editable w-full p-4 rounded-xl border border-indigo-200 bg-white/60 shadow-inner resize-none focus:outline-none focus:ring-2 focus:ring-indigo-300">Grateful for quiet moments and health.</textarea>
-            <div class="mt-2 text-right">
-              <button type="button" onclick="toggleEdit('q3')" class="edit-btn px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-semibold shadow">Edit</button>
-            </div>
-          </div>
+                    <!-- Pertanyaan 2 -->
+                    <div>
+                        <label
+                            class="block text-lg font-semibold text-indigo-800 mb-2">{{ $questions->question2 }}</label>
+                        <textarea name="answer2" rows="3"
+                            class="w-full p-4 rounded-xl border border-indigo-200 bg-white/60 focus:outline-none focus:ring-2 focus:ring-indigo-300 resize-none shadow-inner"
+                            placeholder="Your answer..."required>{{ old('answer2', $journal->answer2) }}</textarea>
+                    </div>
 
-          <!-- Additional Notes -->
-          <div>
-            <label class="block text-lg font-semibold text-indigo-800 mb-2">Additional Notes</label>
-            <textarea id="q4" rows="4" disabled
-              class="editable w-full p-4 rounded-xl border border-indigo-200 bg-white/60 shadow-inner resize-none focus:outline-none focus:ring-2 focus:ring-indigo-300">Reflected on how slowing down helps clarity.</textarea>
-            <div class="mt-2 text-right">
-              <button type="button" onclick="toggleEdit('q4')" class="edit-btn px-4 py-2 bg-indigo-600 hover:bg-indigo-700 text-white rounded-xl font-semibold shadow">Edit</button>
-            </div>
-          </div>
-        </form>
-      </section>
-    </main>
+                    <!-- Pertanyaan 3 -->
+                    <div>
+                        <label
+                            class="block text-lg font-semibold text-indigo-800 mb-2">{{ $questions->question3 }}</label>
+                        <textarea name="answer3" rows="3"
+                            class="w-full p-4 rounded-xl border border-indigo-200 bg-white/60 focus:outline-none focus:ring-2 focus:ring-indigo-300 resize-none shadow-inner"
+                            placeholder="Your answer..." required>{{ old('answer3', $journal->answer3) }}</textarea>
+                    </div>
 
-    <!-- Sidebar -->
-    <aside class="w-full md:w-80 bg-white rounded-3xl shadow-xl p-8 flex flex-col items-center sticky top-10 h-fit">
-      <h2 class="text-3xl font-extrabold mb-8 text-indigo-700 drop-shadow-md">Music Player</h2>
-      <img class="rounded-3xl shadow-lg mb-6 w-64 h-64 object-cover"
-        src="https://storage.googleapis.com/a1aa/image/c14602bb-4ee5-42a4-a96f-723cc2d4c7e6.jpg" alt="Album cover" />
-      <div class="text-center mb-6">
-        <h3 class="text-xl font-semibold text-gray-900 mb-1">Dreamscape</h3>
-        <p class="text-gray-600 text-sm">Artist: Synthwave Collective</p>
-      </div>
-      <audio class="w-full rounded-xl shadow-inner mb-6" controls>
-        <source src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-1.mp3" type="audio/mpeg" />
-      </audio>
-      <div class="flex justify-center space-x-10 text-indigo-600 text-3xl select-none">
-        <button type="button" aria-label="Previous track"
-          class="hover:text-indigo-900 transition-transform active:scale-90">
-          <i class="fas fa-backward"></i>
-        </button>
-        <button type="button" aria-label="Play/Pause"
-          class="hover:text-indigo-900 transition-transform active:scale-90">
-          <i class="fas fa-play"></i>
-        </button>
-        <button type="button" aria-label="Next track"
-          class="hover:text-indigo-900 transition-transform active:scale-90">
-          <i class="fas fa-forward"></i>
-        </button>
-      </div>
-    </aside>
-  </div>
+                    <!-- Deskripsi Tambahan -->
+                    <div>
+                        <label class="block text-lg font-semibold text-indigo-800 mb-2">Additional Notes or
+                            Description</label>
+                        <textarea name="description" rows="4"
+                            class="w-full p-4 rounded-xl border border-indigo-200 bg-white/60 focus:outline-none focus:ring-2 focus:ring-indigo-300 resize-none shadow-inner"
+                            placeholder="Write any additional notes or reflection...">{{ old('description', $journal->description) }}</textarea>
+                    </div>
 
-  <script>
-    function toggleEdit(id) {
-      const el = document.getElementById(id);
-      const btn = el.parentElement.querySelector('.edit-btn');
+                    <!-- Submit -->
+                    <div class="text-right">
+                        <button type="submit"
+                            class="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-xl shadow-md transition">
+                            Save Change Journal
+                        </button>
+                    </div>
+                </form>
 
-      if (el.disabled) {
-        el.disabled = false;
-        el.focus();
-        btn.textContent = "Save";
-        btn.classList.remove('bg-indigo-600');
-        btn.classList.add('bg-green-600');
-      } else {
-        el.disabled = true;
-        btn.textContent = "Edit";
-        btn.classList.remove('bg-green-600');
-        btn.classList.add('bg-indigo-600');
-        console.log(`Saved [${id}]:`, el.value);
-      }
-    }
-  </script>
+            </section>
+        </main>
+
+
+        <!-- Sidebar -->
+        <aside class="w-full md:w-80 bg-white rounded-3xl shadow-xl p-6 flex flex-col sticky top-10 h-fit">
+
+            <h2 class="text-2xl font-bold mb-4 text-indigo-700">Now Playing</h2>
+
+            @if ($currentLagu)
+                <img src="{{ asset('storage/' . $currentLagu->image) }}"
+                    class="rounded-xl mb-4 w-full h-48 object-cover" alt="">
+                <div class="mb-2">
+                    <h3 class="text-lg font-semibold">{{ $currentLagu->judul }}</h3>
+                    <p class="text-sm text-gray-600">{{ $currentLagu->penyanyi }}</p>
+                </div>
+                <audio controls class="w-full mb-6">
+                    <source src="{{ asset('storage/' . $currentLagu->file) }}" type="audio/mpeg">
+                </audio>
+            @endif
+
+            <hr class="mb-4">
+
+            <h3 class="text-lg font-semibold text-gray-700 mb-2">Playlist</h3>
+
+            <ul class="space-y-2">
+                @foreach ($laguList as $lagu)
+                    <li class="flex justify-between items-center hover:bg-gray-100 p-2 rounded cursor-pointer"
+                        onclick="window.location.href='{{ route('journal.play', $lagu->id) }}'">
+                        <div>
+                            <p class="text-sm font-medium text-gray-800">{{ $lagu->judul }}</p>
+                            <p class="text-xs text-gray-500">{{ $lagu->penyanyi }}</p>
+                        </div>
+                        <i class="fas fa-play text-indigo-600"></i>
+                    </li>
+                @endforeach
+            </ul>
+        </aside>
+        
+
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const audio = document.querySelector('audio');
+            const playBtn = document.querySelector('button[aria-label="Play/Pause"]');
+            const playIcon = playBtn.querySelector('i');
+
+            playBtn.addEventListener('click', function() {
+                if (audio.paused) {
+                    audio.play();
+                    playIcon.classList.remove('fa-play');
+                    playIcon.classList.add('fa-pause');
+                } else {
+                    audio.pause();
+                    playIcon.classList.remove('fa-pause');
+                    playIcon.classList.add('fa-play');
+                }
+            });
+        });
+    </script>
+
 </body>
 
 </html>

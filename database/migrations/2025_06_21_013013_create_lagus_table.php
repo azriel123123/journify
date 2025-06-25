@@ -17,6 +17,7 @@ return new class extends Migration
         $table->string('penyanyi');
         $table->string('file'); 
         $table->foreignId('category_id')->constrained()->onDelete('cascade'); 
+        $table->string('image');
         $table->timestamps();
     });
 }

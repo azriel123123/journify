@@ -100,49 +100,38 @@
 
 
         <!-- Sidebar -->
-        <aside class="w-full md:w-80 bg-white rounded-3xl shadow-xl p-8 flex flex-col items-center sticky top-10 h-fit">
-            <h2 class="text-3xl font-extrabold mb-8 text-indigo-700 drop-shadow-md">Music Player</h2>
-        
-            @if ($lagu)
-                <img class="rounded-3xl shadow-lg mb-6 w-64 h-64 object-cover"
-                    src="{{ asset('storage/' . $lagu->category->image) }}"
-                    alt="{{ $lagu->judul }}" />
-        
-                <div class="text-center mb-6">
-                    <h3 class="text-xl font-semibold text-gray-900 mb-1">{{ $lagu->judul }}</h3>
-                    <p class="text-gray-600 text-sm">Artist: {{ $lagu->penyanyi }}</p>
+        <aside class="w-full md:w-80 bg-white rounded-3xl shadow-xl p-6 flex flex-col sticky top-10 h-fit">
+
+            <h2 class="text-2xl font-bold mb-4 text-indigo-700">Now Playing</h2>
+
+            @if ($currentLagu)
+                <img src="{{ asset('storage/' . $currentLagu->image) }}"
+                    class="rounded-xl mb-4 w-full h-48 object-cover" alt="">
+                <div class="mb-2">
+                    <h3 class="text-lg font-semibold">{{ $currentLagu->judul }}</h3>
+                    <p class="text-sm text-gray-600">{{ $currentLagu->penyanyi }}</p>
                 </div>
-        
-                <audio class="w-full rounded-xl shadow-inner mb-6" controls>
-                    <source src="{{ asset('storage/' . $lagu->file) }}" type="audio/mpeg" />
+                <audio controls class="w-full mb-6">
+                    <source src="{{ asset('storage/' . $currentLagu->file) }}" type="audio/mpeg">
                 </audio>
-        
-                <div class="flex justify-center space-x-10 text-indigo-600 text-3xl select-none mb-8">
-                    <button type="button" aria-label="Previous track"
-                        class="hover:text-indigo-900 transition-transform active:scale-90">
-                        <i class="fas fa-backward"></i>
-                    </button>
-                    <button type="button" aria-label="Play/Pause"
-                        class="hover:text-indigo-900 transition-transform active:scale-90">
-                        <i class="fas fa-play"></i>
-                    </button>
-                    <button type="button" aria-label="Next track"
-                        class="hover:text-indigo-900 transition-transform active:scale-90">
-                        <i class="fas fa-forward"></i>
-                    </button>
-                </div>
-            @else
-                <p class="text-center text-gray-500 mb-8">No music available.</p>
             @endif
-        
-            <!-- Logout Button -->
-            <form method="POST" action="{{ route('logout') }}" class="w-full mt-auto">
-                @csrf
-                <button type="submit"
-                    class="w-full flex items-center justify-center gap-2 px-4 py-3 bg-white border border-red-300 text-red-600 font-semibold rounded-xl shadow hover:bg-red-50 transition duration-200">
-                    <i class="fas fa-sign-out-alt"></i> Logout
-                </button>
-            </form>
+
+            <hr class="mb-4">
+
+            <h3 class="text-lg font-semibold text-gray-700 mb-2">Playlist</h3>
+
+            <ul class="space-y-2">
+                @foreach ($laguList as $lagu)
+                    <li class="flex justify-between items-center hover:bg-gray-100 p-2 rounded cursor-pointer"
+                        onclick="window.location.href='{{ route('journal.play', $lagu->id) }}'">
+                        <div>
+                            <p class="text-sm font-medium text-gray-800">{{ $lagu->judul }}</p>
+                            <p class="text-xs text-gray-500">{{ $lagu->penyanyi }}</p>
+                        </div>
+                        <i class="fas fa-play text-indigo-600"></i>
+                    </li>
+                @endforeach
+            </ul>
         </aside>
         
 

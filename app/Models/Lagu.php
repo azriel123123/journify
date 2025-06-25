@@ -16,6 +16,7 @@ class Lagu extends Model
         'penyanyi',
         'file',
         'category_id',
+        'image'
     ];
 
     public function category()

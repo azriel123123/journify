@@ -13,8 +13,7 @@ class CategorySeeder extends Seeder
             'Happy',
             'Sad',
             'angry',
-            'samge'
-        ];
+                ];
 
         foreach ($categories as $category) {
             DB::table('categories')->insert([
