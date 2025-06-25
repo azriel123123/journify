@@ -9,18 +9,24 @@ use Illuminate\Http\Request;
 
 class QuestionController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $questions = Question::with('category')
-            ->when(request('question'), function ($query, $question) {
-                $query->where('question', 'like', '%' . $question . '%');
-            })
-            ->orderBy('id', 'desc')
-            ->paginate(5);
+        $query = Question::with('category');
 
-        $category = Category::all();
-        return view('pages.question.index', compact('questions', 'category'));
+        if ($request->filled('category')) {
+            $query->where('category_id', $request->category);
+        }
+
+        if ($request->filled('day')) {
+            $query->where('day', $request->day);
+        }
+
+        $questions = $query->latest()->get();
+        $categories = Category::all();
+
+        return view('pages.question.index', compact('questions', 'categories'));
     }
+
 
     public function create()
     {
@@ -33,12 +39,16 @@ class QuestionController extends Controller
     {
         $request->validate([
             'category_id' => 'required',
+            'day' => 'required|integer|min:1',
+            'title' => 'required|string',
             'question1' => 'required',
             'question2' => 'required',
             'question3' => 'required'
         ]);
 
         Question::create([
+            'day' => $request->day,
+            'title' => $request->title,
             'category_id' => $request->category_id,
             'question1' => $request->question1,
             'question2' => $request->question2,
@@ -55,24 +65,28 @@ class QuestionController extends Controller
         return view('pages.question.edit', compact('question', 'category'));
     }
 
-   public function update(Request $request, $id)
-{
-    $request->validate([
-        'category_id' => 'required|exists:categories,id',
-        'question1' => 'required',
-        'question2' => 'required',
-        'question3' => 'required'
-    ]);
+    public function update(Request $request, $id)
+    {
+        $request->validate([
+            'category_id' => 'required|exists:categories,id',
+            'day' => 'required|integer|min:1',
+            'title' => 'required|string',
+            'question1' => 'required',
+            'question2' => 'required',
+            'question3' => 'required'
+        ]);
 
-    $question = Question::findOrFail($id);
-    $question->category_id = $request->category_id;
-    $question->question1 = $request->question1;
-    $question->question2 = $request->question2;
-    $question->question3 = $request->question3;
-    $question->save();
+        $question = Question::findOrFail($id);
+        $question->day = $request->day;
+        $question->title = $request->title;
+        $question->category_id = $request->category_id;
+        $question->question1 = $request->question1;
+        $question->question2 = $request->question2;
+        $question->question3 = $request->question3;
+        $question->save();
 
-    return redirect()->route('question.index')->with('success', 'Question updated successfully');
-}
+        return redirect()->route('question.index')->with('success', 'Question updated successfully');
+    }
 
 
 

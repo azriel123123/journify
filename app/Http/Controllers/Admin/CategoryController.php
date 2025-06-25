@@ -21,12 +21,6 @@ class CategoryController extends Controller
 
         return view('pages.category.index', compact('categories'));
     }
-
-    public function show($id){
-        $category = Category::findOrFail($id);
-        return view('pages.category.show', compact('category'));
-    }
-
     public function create(){
         return view('pages.category.create');
     }

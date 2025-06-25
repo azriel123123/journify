@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('questions', function (Blueprint $table) {
             $table->id();
             $table->foreignId('category_id')->constrained()->onDelete('cascade');
+            $table->unsignedInteger('day');
+            $table->string('title');
             $table->string('question1');
             $table->string('question2');
             $table->string('question3');

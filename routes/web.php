@@ -42,8 +42,8 @@ Route::middleware('auth')->group(function () {
     Route::get('/home', [HomeController::class, 'index'])->name('home');
      // Route ini untuk ganti lagu yang sedang diputar
     Route::get('/journal/play/{id}', [frontEndController::class, 'play'])->name('journal.play');
-    Route::get('/journal/create/{category}', [frontEndController::class, 'create'])->name('journal.create');
-    Route::post('/journal/create/{category}', [frontEndController::class, 'store'])->name('journal.store');
+    Route::get('/journal/create/{category}/{day}', [frontEndController::class, 'create'])->name('journal.create');
+    Route::post('/journal/store/{category}/{day}', [frontEndController::class, 'store'])->name('journal.store');
     Route::get('/journal/edit/{category}/{id}', [frontEndController::class, 'edit'])->name('journal.edit');
     Route::put('/journal/update/{category}/{id}', [frontEndController::class, 'update'])->name('journal.update');
 });

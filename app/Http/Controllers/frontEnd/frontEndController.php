@@ -22,24 +22,26 @@ class frontEndController extends Controller
         return view('frontend.homepage2.index', compact('categories', 'journals', 'laguList', 'currentLagu'));
     }
 
-    public function create(Category $category)
+    public function create(Category $category, $day)
     {
-          $laguList = Lagu::all();
-        $currentLagu = $laguList->first(); // lagu pertama sebagai default
+        $questions = Question::where('category_id', $category->id)->where('day', $day)->first();
+        $totalHari = Question::where('category_id', $category->id)->max('day');
+        $laguList = Lagu::all();
+        $currentLagu = $laguList->first();
 
-        $questions = Question::where('category_id', $category->id)->first();
-
-
-        if (!$questions) {
-            return redirect()->route('journal')->with('error', 'No questions found for this category.');
-        }
-
-        return view('frontend.homepage2.create', [
-            'questions' => $questions,
-            'category' => $category
-        ], compact('laguList', 'currentLagu'));
+        // kirim ke view apakah pertanyaan tersedia
+        return view('frontend.homepage2.create', compact(
+            'questions',
+            'category',
+            'laguList',
+            'currentLagu',
+            'totalHari',
+            'day'
+        ));
     }
-    public function         store(Request $request, Category $category)
+
+
+    public function  store(Request $request, Category $category)
     {
         $request->validate([
             'title' => 'required|string|max:255',
@@ -61,55 +63,56 @@ class frontEndController extends Controller
 
         return redirect()->route('journal')->with('success', 'Journal has been saved.');
     }
-    public function edit(Category $category,$id)
+    public function edit(Category $category, $id)
     {
         $journal = Journal::where('id', $id)
-        ->where('user_id', Auth::id())
-        ->firstOrFail();
+            ->where('user_id', Auth::id())
+            ->firstOrFail();
 
-    $questions = Question::where('category_id', $category->id)->first();
+        $questions = Question::where('category_id', $category->id)->first();
 
-     $laguList = Lagu::all();
+        $laguList = Lagu::all();
         $currentLagu = $laguList->first(); // lagu pertama sebagai default
 
 
-    return view('frontend.homepage2.read', compact(
-        'journal',
-        'category',
-        'questions',
-        'laguList',
-        'currentLagu'
-    ));
+        return view('frontend.homepage2.read', compact(
+            'journal',
+            'category',
+            'questions',
+            'laguList',
+            'currentLagu'
+        ));
     }
 
 
-   public function update(Request $request, Category $category, $id){
-    $request->validate([
-        'title' => 'required|string|max:255',
-        'answer1' => 'required|string',
-        'answer2' => 'required|string',
-        'answer3' => 'required|string',
-        'description' => 'nullable|string',
-    ]);
+    public function update(Request $request, Category $category, $id)
+    {
+        $request->validate([
+            'title' => 'required|string|max:255',
+            'answer1' => 'required|string',
+            'answer2' => 'required|string',
+            'answer3' => 'required|string',
+            'description' => 'nullable|string',
+        ]);
 
-    $journal = Journal::findOrFail($id);
+        $journal = Journal::findOrFail($id);
 
-    // Cek apakah journal ini milik user yang sedang login (opsional, tapi aman)
-    if ($journal->user_id !== Auth::id()) {
-        abort(403, 'Unauthorized');
+        // Cek apakah journal ini milik user yang sedang login (opsional, tapi aman)
+        if ($journal->user_id !== Auth::id()) {
+            abort(403, 'Unauthorized');
+        }
+
+        $journal->update([
+            'category_id' => $category->id,
+            'title' => $request->title,
+            'answer1' => $request->answer1,
+            'answer2' => $request->answer2,
+            'answer3' => $request->answer3,
+            'description' => $request->description,
+        ]);
+
+        return redirect()->route('journal')->with('success', 'Journal has been updated.');
     }
-
-    $journal->update([
-        'category_id' => $category->id,
-        'title' => $request->title,
-        'answer1' => $request->answer1,
-        'answer2' => $request->answer2,
-        'answer3' => $request->answer3,
-        'description' => $request->description,
-    ]);
-
-    return redirect()->route('journal')->with('success', 'Journal has been updated.');
-}
 
     public function play($id)
     {

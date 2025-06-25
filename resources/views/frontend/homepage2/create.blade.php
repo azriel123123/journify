@@ -35,73 +35,103 @@
                     </button>
                 </div>
 
-                <!-- Judul -->
-                <h2 class="text-3xl font-extrabold mb-8 text-indigo-800 drop-shadow-md">Create Journal</h2>
+                <!-- Judul Halaman -->
+                <h2 class="text-3xl font-extrabold mb-2 text-indigo-800 drop-shadow-md">Create Journal</h2>
+                <p class="text-lg text-indigo-700 mb-8">Hari ke-{{ $day }}</p>
 
-                <form method="POST" action="{{ route('journal.store', ['category' => $category->id]) }}"
-                    class="space-y-5 bg-white/40 border border-white/30 backdrop-blur-2xl rounded-3xl shadow-xl p-8">
-                    @csrf
-
-                    <!-- Judul Jurnal -->
-                    <div>
-                        <label class="block text-lg font-semibold text-indigo-800 mb-2">Journal Title</label>
-                        <input type="text" name="title"
-                            class="w-full p-4 rounded-xl border border-indigo-200 bg-white/60 focus:outline-none focus:ring-2 focus:ring-indigo-300 shadow-inner"
-                            placeholder="Enter your journal title..." required />
+                <!-- Dropdown Pilih Hari -->
+                <div class="mb-6">
+                    <label for="daySelect" class="block text-lg font-semibold text-indigo-800 mb-3">Pilih Hari</label>
+                    <div class="relative">
+                        <i
+                            class="fas fa-calendar-day absolute left-4 top-1/2 transform -translate-y-1/2 text-indigo-500"></i>
+                        <select id="daySelect" onchange="if(this.value) window.location.href=this.value"
+                            class="w-full appearance-none pl-12 pr-8 py-3 rounded-2xl border border-indigo-300 bg-white text-indigo-700 font-medium shadow-md focus:outline-none focus:ring-2 focus:ring-indigo-300 transition">
+                            @for ($i = 1; $i <= $totalHari; $i++)
+                                <option
+                                    value="{{ route('journal.create', ['category' => $category->id, 'day' => $i]) }}"
+                                    {{ $i == $day ? 'selected' : '' }}>
+                                    Hari ke-{{ $i }}
+                                </option>
+                            @endfor
+                        </select>
+                        <i
+                            class="fas fa-chevron-down absolute right-4 top-1/2 transform -translate-y-1/2 text-gray-400 pointer-events-none"></i>
                     </div>
+                </div>
 
-                    <!-- Pertanyaan 1 -->
-                    <div>
-                        <label
-                            class="block text-lg font-semibold text-indigo-800 mb-2">{{ $questions->question1 }}</label>
-                        <textarea name="answer1" rows="3"
-                            class="w-full p-4 rounded-xl border border-indigo-200 bg-white/60 focus:outline-none focus:ring-2 focus:ring-indigo-300 resize-none shadow-inner"
-                            placeholder="Your answer..." required></textarea>
-                    </div>
 
-                    <!-- Pertanyaan 2 -->
-                    <div>
-                        <label
-                            class="block text-lg font-semibold text-indigo-800 mb-2">{{ $questions->question2 }}</label>
-                        <textarea name="answer2" rows="3"
-                            class="w-full p-4 rounded-xl border border-indigo-200 bg-white/60 focus:outline-none focus:ring-2 focus:ring-indigo-300 resize-none shadow-inner"
-                            placeholder="Your answer..." required></textarea>
-                    </div>
+                @if ($questions)
+                    <!-- Form -->
+                    <form method="POST"
+                        action="{{ route('journal.store', ['category' => $category->id, 'day' => $questions->day]) }}"
+                        class="space-y-5 bg-white/40 border border-white/30 backdrop-blur-2xl rounded-3xl shadow-xl p-8">
+                        @csrf
 
-                    <!-- Pertanyaan 3 -->
-                    <div>
-                        <label
-                            class="block text-lg font-semibold text-indigo-800 mb-2">{{ $questions->question3 }}</label>
-                        <textarea name="answer3" rows="3"
-                            class="w-full p-4 rounded-xl border border-indigo-200 bg-white/60 focus:outline-none focus:ring-2 focus:ring-indigo-300 resize-none shadow-inner"
-                            placeholder="Your answer..." required></textarea>
-                    </div>
+                        <!-- Judul Jurnal (readonly) -->
+                        <div>
+                            <label class="block text-lg font-semibold text-indigo-800 mb-2">Journal Title</label>
+                            <input type="text" name="title" value="{{ $questions->title }}" readonly
+                                class="w-full p-4 rounded-xl border border-indigo-200 bg-gray-100 focus:outline-none shadow-inner text-gray-700 font-semibold" />
+                        </div>
 
-                    <!-- Deskripsi Tambahan -->
-                    <div>
-                        <label class="block text-lg font-semibold text-indigo-800 mb-2">Additional Notes or
-                            Description</label>
-                        <textarea name="description" rows="4"
-                            class="w-full p-4 rounded-xl border border-indigo-200 bg-white/60 focus:outline-none focus:ring-2 focus:ring-indigo-300 resize-none shadow-inner"
-                            placeholder="Write any additional notes or reflection..."></textarea>
-                    </div>
+                        <!-- Pertanyaan 1 -->
+                        <div>
+                            <label
+                                class="block text-lg font-semibold text-indigo-800 mb-2">{{ $questions->question1 }}</label>
+                            <textarea name="answer1" rows="3" required
+                                class="w-full p-4 rounded-xl border border-indigo-200 bg-white/60 focus:outline-none focus:ring-2 focus:ring-indigo-300 resize-none shadow-inner"
+                                placeholder="Your answer..."></textarea>
+                        </div>
 
-                    <!-- Submit -->
-                    <div class="text-right">
-                        <button type="submit"
-                            class="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-xl shadow-md transition">
-                            Save Journal
-                        </button>
+                        <!-- Pertanyaan 2 -->
+                        <div>
+                            <label
+                                class="block text-lg font-semibold text-indigo-800 mb-2">{{ $questions->question2 }}</label>
+                            <textarea name="answer2" rows="3" required
+                                class="w-full p-4 rounded-xl border border-indigo-200 bg-white/60 focus:outline-none focus:ring-2 focus:ring-indigo-300 resize-none shadow-inner"
+                                placeholder="Your answer..."></textarea>
+                        </div>
+
+                        <!-- Pertanyaan 3 -->
+                        <div>
+                            <label
+                                class="block text-lg font-semibold text-indigo-800 mb-2">{{ $questions->question3 }}</label>
+                            <textarea name="answer3" rows="3" required
+                                class="w-full p-4 rounded-xl border border-indigo-200 bg-white/60 focus:outline-none focus:ring-2 focus:ring-indigo-300 resize-none shadow-inner"
+                                placeholder="Your answer..."></textarea>
+                        </div>
+
+                        <!-- Deskripsi Tambahan -->
+                        <div>
+                            <label class="block text-lg font-semibold text-indigo-800 mb-2">Additional Notes</label>
+                            <textarea name="description" rows="4"
+                                class="w-full p-4 rounded-xl border border-indigo-200 bg-white/60 focus:outline-none focus:ring-2 focus:ring-indigo-300 resize-none shadow-inner"
+                                placeholder="Write any notes or reflections..."></textarea>
+                        </div>
+
+                        <!-- Submit -->
+                        <div class="text-right">
+                            <button type="submit"
+                                class="px-6 py-3 bg-indigo-600 hover:bg-indigo-700 text-white font-semibold rounded-xl shadow-md transition">
+                                Save Journal
+                            </button>
+                        </div>
+                    </form>
+                @else
+                    <div
+                        class="bg-white/60 border border-red-300 text-red-800 font-semibold text-center rounded-xl p-6 shadow">
+                        Pertanyaan tidak tersedia pada hari ini.
                     </div>
-                </form>
+                @endif
+
+
 
             </section>
         </main>
 
-
-        <!-- Sidebar -->
+        <!-- Sidebar Lagu -->
         <aside class="w-full md:w-80 bg-white rounded-3xl shadow-xl p-6 flex flex-col sticky top-10 h-fit">
-
             <h2 class="text-2xl font-bold mb-4 text-indigo-700">Now Playing</h2>
 
             @if ($currentLagu)
@@ -117,9 +147,7 @@
             @endif
 
             <hr class="mb-4">
-
             <h3 class="text-lg font-semibold text-gray-700 mb-2">Playlist</h3>
-
             <ul class="space-y-2">
                 @foreach ($laguList as $lagu)
                     <li class="flex justify-between items-center hover:bg-gray-100 p-2 rounded cursor-pointer"
@@ -133,29 +161,7 @@
                 @endforeach
             </ul>
         </aside>
-        
-
     </div>
-
-    <script>
-        document.addEventListener('DOMContentLoaded', function() {
-            const audio = document.querySelector('audio');
-            const playBtn = document.querySelector('button[aria-label="Play/Pause"]');
-            const playIcon = playBtn.querySelector('i');
-
-            playBtn.addEventListener('click', function() {
-                if (audio.paused) {
-                    audio.play();
-                    playIcon.classList.remove('fa-play');
-                    playIcon.classList.add('fa-pause');
-                } else {
-                    audio.pause();
-                    playIcon.classList.remove('fa-pause');
-                    playIcon.classList.add('fa-play');
-                }
-            });
-        });
-    </script>
 
 </body>
 

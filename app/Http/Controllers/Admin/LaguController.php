@@ -92,7 +92,7 @@ class LaguController extends Controller
         $lagu = Lagu::findOrFail($id);
         $categories = Category::all();
 
-        return view('admin.lagu.edit', compact('lagu', 'categories'));
+        return view('pages.lagu.edit', compact('lagu', 'categories'));
     }
 
     /**
@@ -132,17 +132,23 @@ class LaguController extends Controller
      * Remove the specified resource from storage.
      */
     public function destroy(string $id)
-    {
-        $lagu = Lagu::findOrFail($id);
-    
-        // Hapus file MP3 dari storage
-        if ($lagu->file && Storage::disk('public')->exists($lagu->file)) {
-            Storage::disk('public')->delete($lagu->file);
-        }
-    
-        // Hapus data dari database
-        $lagu->delete();
-    
-        return redirect()->route('song.index')->with('success', 'Lagu berhasil dihapus.');
+{
+    $lagu = Lagu::findOrFail($id);
+
+    // Hapus file MP3 dari storage
+    if ($lagu->file && Storage::disk('public')->exists($lagu->file)) {
+        Storage::disk('public')->delete($lagu->file);
     }
+
+    // Hapus file gambar dari storage
+    if ($lagu->image && Storage::disk('public')->exists($lagu->image)) {
+        Storage::disk('public')->delete($lagu->image);
+    }
+
+    // Hapus data dari database
+    $lagu->delete();
+
+    return redirect()->route('song.index')->with('success', 'Lagu berhasil dihapus.');
+}
+
 }

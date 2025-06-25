@@ -24,13 +24,20 @@
 
     <div class="max-w-7xl mx-auto px-4 py-10 flex flex-col md:flex-row gap-10">
         <!-- Main Content -->
-        <main class="flex-1">
+        <main class="flex-1"><!-- Tombol Back -->
+            <div class="mb-6 mx-4 md:mx-8">
+                <button onclick="history.back()"
+                    class="inline-flex items-center text-indigo-700 hover:text-indigo-900 font-semibold transition text-base">
+                    <i class="fas fa-arrow-left mr-2"></i> Back
+                </button>
+            </div>
+            
             <!-- Mood Categories -->
             <section class="mb-10 mx-4 md:mx-8">
                 <h2 class="text-3xl font-extrabold mb-6 text-indigo-800 drop-shadow-md">Mood Categories</h2>
                 <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
                     @forelse($categories as $category)
-                        <a href="{{ route('journal.create', ['category' => $category->id]) }}"
+                        <a href="{{ route('journal.create', ['category' => $category->id, 'day' => 1]) }}"
                             class="relative block overflow-hidden rounded-2xl cursor-pointer transform transition hover:scale-105 z-0 hover:z-10 group">
                             <img src="{{ asset('storage/' . $category->image) }}" alt="{{ $category->name }}"
                                 class="w-full h-[140px] object-cover brightness-75 rounded-2xl group-hover:brightness-90 transition" />

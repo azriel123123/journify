@@ -11,6 +11,8 @@ class Question extends Model
 
     protected $fillable = [
         'category_id',
+        'title',
+        'day',
         'question1',
         'question2',
         'question3'

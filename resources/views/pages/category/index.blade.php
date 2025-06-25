@@ -62,9 +62,6 @@
                                                 @method('DELETE')
                                             </form>
                             
-                                            <a href="{{ route('category.show', $category->id) }}" class="btn btn-icon btn-info">
-                                                <i class="fa-solid fa-eye"></i>
-                                            </a>
                                         </td>
                                     </tr>
                                 @endforeach

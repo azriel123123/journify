@@ -24,7 +24,7 @@
 
                 <li class="nav-item">
                     <a href="{{ route('question.index') }}" class="nav-link">
-                        <i class="fas fa-newspaper"></i><span>News</span>
+                        <i class="fas fa-question"></i><span>Question</span>
                     </a>
                 </li>
 
