@@ -24,6 +24,15 @@
                 <form action="{{ route('quote.store') }}" method="POST">
                     @csrf
                     <div class="card-body">
+                        {{-- Hari --}}
+                            <label for="day" class="form-label">Hari ke-</label>
+                            <select name="day" id="day" class="form-control" required>
+                                <option value="" disabled selected>Pilih Hari</option>
+                                @for ($i = 1; $i <= 14; $i++)
+                                    <option value="{{ $i }}">Hari ke-{{ $i }}</option>
+                                @endfor
+                            </select>
+
                         {{-- Headline --}}
                         <div class="form-group">
                             <label>Headline</label>

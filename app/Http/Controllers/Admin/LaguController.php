@@ -99,35 +99,44 @@ class LaguController extends Controller
      * Update the specified resource in storage.
      */
     public function update(Request $request, string $id)
-    {
-        $request->validate([
-            'judul' => 'required',
-            'penyanyi' => 'required',
-            'category_id' => 'required|exists:categories,id',
-            'file' => 'nullable|mimes:mp3',
-        ]);
-    
-        $lagu = Lagu::findOrFail($id);
-    
-        if ($request->hasFile('file')) {
-            // Hapus file lama
-            if ($lagu->file && Storage::disk('public')->exists($lagu->file)) {
-                Storage::disk('public')->delete($lagu->file);
-            }
-    
-            // Simpan file baru
-            $file = $request->file('file');
-            $filePath = $file->store('lagu', 'public');
-            $lagu->file = $filePath;
+{
+    $request->validate([
+        'judul' => 'required',
+        'penyanyi' => 'required',
+        'category_id' => 'required|exists:categories,id',
+        'file' => 'nullable|mimes:mp3',
+        'image' => 'nullable|image|mimes:jpeg,png,jpg,gif,svg|max:2048', // ✅ validasi gambar
+    ]);
+
+    $lagu = Lagu::findOrFail($id);
+
+    // 🎵 Update file lagu jika ada
+    if ($request->hasFile('file')) {
+        if ($lagu->file && Storage::disk('public')->exists($lagu->file)) {
+            Storage::disk('public')->delete($lagu->file);
         }
-    
-        $lagu->judul = $request->judul;
-        $lagu->penyanyi = $request->penyanyi;
-        $lagu->category_id = $request->category_id;
-        $lagu->save();
-    
-        return redirect()->route('song.index')->with('success', 'Lagu berhasil diperbarui.');
+        $file = $request->file('file');
+        $filePath = $file->store('lagu', 'public');
+        $lagu->file = $filePath;
     }
+
+    // 🖼️ Update gambar jika ada
+    if ($request->hasFile('image')) {
+        if ($lagu->image && Storage::disk('public')->exists($lagu->image)) {
+            Storage::disk('public')->delete($lagu->image);
+        }
+        $image = $request->file('image');
+        $imagePath = $image->store('lagu-images', 'public');
+        $lagu->image = $imagePath;
+    }
+
+    $lagu->judul = $request->judul;
+    $lagu->penyanyi = $request->penyanyi;
+    $lagu->category_id = $request->category_id;
+    $lagu->save();
+
+    return redirect()->route('song.index')->with('success', 'Lagu berhasil diperbarui.');
+}
     /**
      * Remove the specified resource from storage.
      */

@@ -9,7 +9,7 @@ class Quote extends Model
 {
     use HasFactory;
 
-    protected $fillable = ['headline', 'isi', 'category_id'];
+    protected $fillable = ['headline', 'day', 'isi', 'category_id'];
 
     public function category()
     {

@@ -9,6 +9,7 @@ return new class extends Migration {
     {
         Schema::create('quotes', function (Blueprint $table) {
             $table->id();
+            $table->unsignedInteger('day');
             $table->string('headline');
             $table->text('isi');
             $table->foreignId('category_id')->constrained()->onDelete('cascade');

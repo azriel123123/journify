@@ -19,6 +19,10 @@ class QuoteController extends Controller
                 $q->whereRaw('LOWER(name) = ?', [$filter]);
             });
         }
+
+        if ($request->filled('day')) {
+            $query->where('day', $request->day);
+        }
     
         $quotes = $query->latest()->get();
         $categories = Category::all();
@@ -33,17 +37,19 @@ class QuoteController extends Controller
     }
 
     public function store(Request $request)
-    {
-        $request->validate([
-            'headline' => 'required',
-            'isi' => 'required',
-            'category_id' => 'required|exists:categories,id',
-        ]);
+{
+    $request->validate([
+        'headline' => 'required',
+        'day' => 'required|integer|min:1',
+        'isi' => 'required',
+        'category_id' => 'required|exists:categories,id',
+    ]);
 
-        Quote::create($request->all());
+    Quote::create($request->only(['headline', 'day', 'isi', 'category_id']));
 
-        return redirect()->route('quote.index')->with('success', 'Quote berhasil ditambahkan.');
-    }
+    return redirect()->route('quote.index')->with('success', 'Quote berhasil ditambahkan.');
+}
+
 
     public function edit($id)
     {
@@ -56,6 +62,7 @@ class QuoteController extends Controller
     {
         $request->validate([
             'headline' => 'required',
+            'day' => 'required|integer|min:1',
             'isi' => 'required',
             'category_id' => 'required|exists:categories,id',
         ]);

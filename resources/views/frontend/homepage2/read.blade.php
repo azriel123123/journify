@@ -38,17 +38,17 @@
                 <!-- Judul -->
                 <h2 class="text-3xl font-extrabold mb-8 text-indigo-800 drop-shadow-md">Read & Edit Journal</h2>
 
-                <form method="POST" action="{{ route('journal.update', ['category' => $journal->category_id, 'id' => $journal->id]) }}"
+                <form method="POST"
+                    action="{{ route('journal.update', ['category' => $journal->category_id, 'id' => $journal->id]) }}"
                     class="space-y-5 bg-white/40 border border-white/30 backdrop-blur-2xl rounded-3xl shadow-xl p-8">
                     @csrf
                     @method('PUT')
 
-                    <!-- Judul Jurnal -->
+                    <!-- Judul Jurnal (readonly) -->
                     <div>
                         <label class="block text-lg font-semibold text-indigo-800 mb-2">Journal Title</label>
-                        <input type="text" name="title"
-                            class="w-full p-4 rounded-xl border border-indigo-200 bg-white/60 focus:outline-none focus:ring-2 focus:ring-indigo-300 shadow-inner"
-                            placeholder="Enter your journal title..." value="{{ old('title', $journal->title) }}" required />
+                        <input type="text" name="title" value="{{ $questions->title }}" readonly
+                            class="w-full p-4 rounded-xl border border-indigo-200 bg-gray-100 focus:outline-none shadow-inner text-gray-700 font-semibold" />
                     </div>
 
                     <!-- Pertanyaan 1 -->
@@ -101,8 +101,7 @@
 
 
         <!-- Sidebar -->
-        <aside class="w-full md:w-80 bg-white rounded-3xl shadow-xl p-6 flex flex-col sticky top-10 h-fit">
-
+         <aside class="w-full md:w-80 bg-white rounded-3xl shadow-xl p-6 flex flex-col sticky top-10 h-fit">
             <h2 class="text-2xl font-bold mb-4 text-indigo-700">Now Playing</h2>
 
             @if ($currentLagu)
@@ -118,13 +117,11 @@
             @endif
 
             <hr class="mb-4">
-
             <h3 class="text-lg font-semibold text-gray-700 mb-2">Playlist</h3>
-
             <ul class="space-y-2">
                 @foreach ($laguList as $lagu)
                     <li class="flex justify-between items-center hover:bg-gray-100 p-2 rounded cursor-pointer"
-                        onclick="window.location.href='{{ route('journal.play', $lagu->id) }}'">
+                        onclick="window.location.href='{{ route('journal.play', $lagu->id) }}?category_id={{ $category->id }}&context=create&day={{ $day }}'">
                         <div>
                             <p class="text-sm font-medium text-gray-800">{{ $lagu->judul }}</p>
                             <p class="text-xs text-gray-500">{{ $lagu->penyanyi }}</p>
@@ -134,7 +131,7 @@
                 @endforeach
             </ul>
         </aside>
-        
+
 
     </div>
 

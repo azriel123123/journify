@@ -1,105 +1,122 @@
+<!DOCTYPE html>
 <html lang="en">
 
 <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Dynamic Journal Layout</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Journal Dashboard</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet" />
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet" />
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&display=swap" rel="stylesheet" />
     <script>
         tailwind.config = {
             theme: {
                 extend: {
                     fontFamily: {
-                        inter: ['Inter', 'sans-serif']
-                    }
-                }
-            }
+                        inter: ['Inter', 'sans-serif'],
+                    },
+                    colors: {
+                        primary: '#4F46E5',
+                        secondary: '#F97316',
+                        moodHappy: '#DBEAFE',
+                        moodSad: '#FCE7F3',
+                        moodNeutral: '#DCFCE7',
+                        moodAngry: '#FECACA',
+                        moodTired: '#FFE4B5',
+                    },
+                },
+            },
         };
     </script>
+    <style>
+        body {
+            background: linear-gradient(135deg, #FFF6F0, #FDFBFB);
+        }
+
+        .item:hover {
+            background-color: #f3f4f6;
+        }
+
+        .smooth-anim {
+            transition: all 0.3s ease;
+        }
+    </style>
 </head>
 
-<body class="bg-gradient-to-tr from-indigo-100 via-pink-100 to-yellow-100 min-h-screen text-gray-900 font-inter">
-
-    <div class="max-w-7xl mx-auto px-4 py-10 flex flex-col md:flex-row gap-10">
-        <!-- Main Content -->
-        <main class="flex-1"><!-- Tombol Back -->
-            <div class="mb-6 mx-4 md:mx-8">
-                <button onclick="history.back()"
-                    class="inline-flex items-center text-indigo-700 hover:text-indigo-900 font-semibold transition text-base">
-                    <i class="fas fa-arrow-left mr-2"></i> Back
+<body class="font-inter text-gray-800 relative">
+    @if (session('affirmation'))
+        <div class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+            <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-md text-center">
+                <h2 class="text-xl font-bold mb-2">{{ session('affirmation')->headline }}</h2>
+                <p class="text-gray-700">{{ session('affirmation')->isi }}</p>
+                <button onclick="this.parentElement.parentElement.remove()"
+                    class="mt-4 px-4 py-2 bg-blue-600 text-white rounded hover:bg-blue-700">
+                    Tutup
                 </button>
             </div>
-            
-            <!-- Mood Categories -->
-            <section class="mb-10 mx-4 md:mx-8">
-                <h2 class="text-3xl font-extrabold mb-6 text-indigo-800 drop-shadow-md">Mood Categories</h2>
-                <div class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 gap-6">
-                    @forelse($categories as $category)
-                        <a href="{{ route('journal.create', ['category' => $category->id, 'day' => 1]) }}"
-                            class="relative block overflow-hidden rounded-2xl cursor-pointer transform transition hover:scale-105 z-0 hover:z-10 group">
-                            <img src="{{ asset('storage/' . $category->image) }}" alt="{{ $category->name }}"
-                                class="w-full h-[140px] object-cover brightness-75 rounded-2xl group-hover:brightness-90 transition" />
-                            <div
-                                class="absolute bottom-3 left-4 text-white font-bold text-xl drop-shadow-md select-none">
-                                {{ $category->name }}
-                            </div>
-                        </a>
+        </div>
+    @endif
 
-                    @empty
-                        <p class="text-gray-600 col-span-full">No categories found.</p>
-                    @endforelse
+    <div class="relative z-10 max-w-7xl mx-auto px-4 py-10 grid grid-cols-1 lg:grid-cols-12 gap-10">
+        <main class="lg:col-span-8 space-y-10">
+            <header class="opacity-0 translate-y-8 scale-95">
+                <h1 class="text-4xl font-bold text-gray-900 mb-1">Welcome back, {{ $user->name }}</h1>
+                <p class="text-lg text-gray-600">Hope today is full of reflection and growth!</p>
+            </header>
+
+            <section
+                class="bg-white p-6 rounded-2xl shadow-md flex items-center justify-between gap-6 opacity-0 translate-y-8 scale-95">
+                <div>
+                    <h2 class="text-xl font-bold text-gray-900 mb-1">Start your day with a journal</h2>
+                    <p class="text-sm text-gray-600">Take a few minutes to reflect and write.</p>
                 </div>
-
+                <a href="{{ route('journal.create') }}">
+                    <button
+                        class="bg-secondary hover:bg-orange-500 text-white px-5 py-2 rounded-lg text-sm font-semibold transition duration-300">
+                        ✍ Create Journal
+                    </button>
+                </a>
             </section>
 
-            <!-- Journal Cards -->
-            <section>
-                <h2 class="text-3xl font-extrabold mb-8 text-indigo-800 drop-shadow-md mx-4 md:mx-8">Your Journals</h2>
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8 mx-4 md:mx-8">
-                    <!-- Contoh Journal -->
-                    @forelse($journals as $journal)
-                        <a href="{{ route('journal.edit', ['category' => $journal->category_id, 'id' => $journal->id]) }}">
-                            <article
-                            class="relative group bg-white/10 border border-white/20 backdrop-blur-2xl rounded-3xl overflow-hidden p-8 shadow-xl transition-all duration-300 hover:shadow-2xl hover:-translate-y-1 hover:border-white/30">
-
-                            <!-- Icon mood: bisa lo kembangin dari jawaban -->
-                            <div
-                                class="absolute top-4 right-4 bg-white/20 rounded-full p-2 text-xl text-indigo-700 backdrop-blur-sm shadow-md">
-                                😊
-                            </div>
-
-                            <!-- Gradient overlay -->
-                            <div
-                                class="absolute inset-0 bg-gradient-to-br from-white/5 via-white/0 to-white/5 rounded-3xl group-hover:from-white/10 transition duration-300">
-                            </div>
-
-                            <!-- Content -->
-                            <h3 class="relative z-10 text-2xl font-bold mb-4 text-indigo-900 drop-shadow-sm">
-                                {{ $journal->title }}
-                            </h3>
-                            <p class="relative z-10 text-indigo-800 mb-6 leading-relaxed">
-                                {{ Str::limit($journal->answer1, 100) }}
-                            </p>
-                            <time class="relative z-10 text-sm text-indigo-700 font-semibold"
-                                datetime="{{ $journal->created_at->toDateString() }}">
-                                {{ $journal->created_at->format('F j, Y') }}
-                            </time>
-                        </article>
-                        </a>
-                    @empty
-                        <p class="text-center text-gray-600 col-span-full">No journals yet.</p>
-                    @endforelse
-
-                    <!-- Salin dan ganti kontennya -->
+            <section class="grid grid-cols-1 sm:grid-cols-2 gap-6 opacity-0 translate-y-8 scale-95">
+                <div class="bg-white rounded-2xl shadow-md p-6 card">
+                    <div class="text-3xl mb-2">😊</div>
+                    <p class="text-sm text-gray-500">Mood Types</p>
+                    <p class="text-xl font-semibold text-gray-900">5</p>
+                </div>
+                <div class="bg-white rounded-2xl shadow-md p-6 card">
+                    <div class="text-3xl mb-2">📅</div>
+                    <p class="text-sm text-gray-500">Last Entry</p>
+                    <p class="text-xl font-semibold text-gray-900">July 6, 2025</p>
                 </div>
             </section>
+
+            {{-- Bagian Quotes/ afrimasi --}}
+            <section class="bg-blue-50 p-6 rounded-xl border border-blue-200 shadow opacity-0 translate-y-8 scale-95">
+                <h2 class="font-semibold text-blue-800 text-sm mb-2">✨ Daily Quote</h2>
+                <blockquote class="text-gray-700 italic text-lg leading-relaxed">
+                    “The journey of a thousand miles begins with a single step.”
+                </blockquote>
+                <p class="text-sm text-gray-500 mt-2 text-right">– Lao Tzu</p>
+            </section>
+
+            <section
+                class="bg-white p-6 rounded-2xl shadow-md flex items-center justify-between gap-6 opacity-0 translate-y-8 scale-95">
+                <div>
+                    <h2 class="text-xl font-bold text-gray-900 mb-1">Start your day with a journal</h2>
+                    <p class="text-sm text-gray-600">Take a few minutes to reflect and write.</p>
+                </div>
+                <a href="{{ route('journal.history') }}">
+                    <button
+                        class="bg-secondary hover:bg-orange-500 text-white px-5 py-2 rounded-lg text-sm font-semibold transition duration-300">Your
+                        Journal History
+                    </button>
+                </a>
+            </section>
+
         </main>
-
         <!-- Sidebar -->
         <aside class="w-full md:w-80 bg-white rounded-3xl shadow-xl p-6 flex flex-col sticky top-10 h-fit">
-
             <h2 class="text-2xl font-bold mb-4 text-indigo-700">Now Playing</h2>
 
             @if ($currentLagu)
@@ -115,11 +132,10 @@
             @endif
 
             <hr class="mb-4">
-
             <h3 class="text-lg font-semibold text-gray-700 mb-2">Playlist</h3>
-
             <ul class="space-y-2">
                 @foreach ($laguList as $lagu)
+                    {{-- index.blade.php --}}
                     <li class="flex justify-between items-center hover:bg-gray-100 p-2 rounded cursor-pointer"
                         onclick="window.location.href='{{ route('journal.play', $lagu->id) }}'">
                         <div>
@@ -132,9 +148,19 @@
             </ul>
         </aside>
 
-
-
     </div>
+    <script>
+        gsap.utils.toArray('section, header, aside').forEach((el, i) => {
+            gsap.to(el, {
+                opacity: 1,
+                y: 0,
+                scale: 1,
+                duration: 0.9,
+                delay: i * 0.15,
+                ease: "expo.out"
+            });
+        });
+    </script>
 
     <script>
         document.addEventListener('DOMContentLoaded', function() {

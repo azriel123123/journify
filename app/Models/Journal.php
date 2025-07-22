@@ -15,6 +15,12 @@ class Journal extends Model
         'answer1',
         'answer2',
         'answer3',
-        'description'
+        'description',
+        'day'
     ];
+
+    public function category()
+    {
+        return $this->belongsTo(Category::class);
+    }
 }

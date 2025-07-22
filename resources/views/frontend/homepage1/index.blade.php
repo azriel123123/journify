@@ -2,393 +2,512 @@
 <html lang="en">
 
 <head>
-    <meta charset="UTF-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
-    <meta http-equiv="Pragma" content="no-cache" />
-    <meta http-equiv="cache-control" content="no-cache">
-
-    <title>Warung Kebunqu</title>
-    <link rel="shortcut icon" href="{{ asset('frontend/homepage1/Logo.png') }}">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.1/css/all.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.5.0/css/font-awesome.min.css">
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700;800&display=swap"
-        rel="stylesheet">
-
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Pelan Pelan | Journey</title>
+    <link rel="icon" href="{{ asset('img/frontend/homepage1/LogoJourney.png') }}">
     <script src="https://cdn.tailwindcss.com"></script>
-    <script src="https://cdn.jsdelivr.net/npm/swiper/swiper-bundle.min.js"></script>
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/feather-icons/4.28.0/feather.min.js"></script>
-    <script defer src="https://unpkg.com/alpinejs@3.x.x/dist/cdn.min.js"></script>
+    <style>
+        /* Custom styles */
+        .wave-top {
+            position: relative;
+            background: #ecf8f7;
+        }
 
-    <!-- Meta Tags -->
-    <meta name="description"
-        content="Warung Kebunqu - Tempat makan keluarga dengan suasana alam di Bogor. Nikmati kuliner khas seperti nasi liwet, gurame, dan kopi terbaik.">
-    <meta name="keywords" content="Warung Kebunqu, restoran keluarga Bogor, kuliner tradisional, wisata kuliner Bogor">
-    <meta name="author" content="Warung Kebunqu">
-    <meta name="robots" content="index, follow">
-    <meta name="googlebot" content="index, follow">
-    <meta name="revisit-after" content="7 days">
-    <meta name="language" content="Indonesia">
-    <meta name="distribution" content="Global">
-    <meta name="rating" content="General">
-    <meta name="classification" content="Restaurant, Family Dining, Tourist Spot">
-    <meta name="url" content="https://warungkebunqu.com">
-    <meta name="geo.region" content="ID-JB">
-    <meta name="geo.placename" content="Babakan Madang, Kabupaten Bogor, Jawa Barat">
-    <meta name="geo.position" content="-6.564923;106.836544">
-    <meta name="ICBM" content="-6.564923, 106.836544">
-    <meta name="address"
-        content="Jl. Gunung Batu Meter 500, Bojong Koneng, Cijayanti, Kabupaten Bogor, Jawa Barat 16810">
+        .wave-top svg {
+            position: absolute;
+            top: -1px;
+            left: 0;
+            width: 100%;
+            height: 80px;
+            fill: #ffffff;
+        }
 
-    <!-- Open Graph -->
-    <meta property="og:type" content="website">
-    <meta property="og:title" content="Warung Kebunqu - Restoran Keluarga di Bogor">
-    <meta property="og:description"
-        content="Nikmati kuliner khas Indonesia di Warung Kebunqu dengan suasana alam dan area bermain anak.">
-    <meta property="og:url" content="https://warungkebunqu.com">
-    <meta property="og:image" content="https://warungkebunqu.com/images/warung-kebunqu-cover.jpg">
-    <meta property="og:locale" content="id_ID">
-    <meta property="og:site_name" content="Warung Kebunqu">
+        .wave-bottom {
+            position: relative;
+            background: #ecf8f7;
+        }
 
-    <!-- Twitter -->
-    <meta name="twitter:card" content="summary_large_image">
-    <meta name="twitter:title" content="Warung Kebunqu - Restoran Keluarga di Bogor">
-    <meta name="twitter:description"
-        content="Kuliner khas Indonesia di Warung Kebunqu, lengkap dengan suasana asri dan fasilitas anak.">
-    <meta name="twitter:image" content="https://warungkebunqu.com/images/warung-kebunqu-cover.jpg">
+        .wave-bottom svg {
+            position: absolute;
+            bottom: -1px;
+            left: 0;
+            width: 100%;
+            height: 80px;
+            fill: #ffffff;
+        }
+
+        /* Accordion icon rotation */
+        details summary::-webkit-details-marker {
+            display: none;
+        }
+
+        details[open]>summary>svg {
+            transform: rotate(45deg);
+        }
+    </style>
 </head>
 
-<body class="font-body">
+<body class="bg-[#ecf8f7] text-slate-900 font-sans leading-relaxed">
 
-    <!-- home section -->
-    <section class="bg-white mb-20 md:mb-52 xl:mb-72">
+    <!-- Navbar -->
+    <header class="flex items-center justify-between p-6 max-w-7xl mx-auto">
+        <!-- Kiri: Logo -->
+        <div class="text-xl font-bold select-none cursor-default">MindSync</div>
 
-        <div class="container max-w-screen-xl mx-auto px-4">
-
-            <nav class="flex-wrap lg:flex items-center py-14 xl:relative z-10" x-data="{ navbarOpen: false }">
-                <div class="flex items-center justify-start mb-10 lg:mb-0">
-                    <img src="{{ asset('img/frontend/homepage1/Logo.png') }}" alt="Logo img"
-                        class="w-24 md:w-24 lg:w-24">
-
-                    <button
-                        class="lg:hidden w-10 h-10 ml-auto flex items-center justify-center text-green-700 border border-green-700 rounded-md"
-                        @click="navbarOpen = !navbarOpen">
-                        <i data-feather="menu"></i>
-                    </button>
-                </div>
-
-                <ul class="lg:flex flex-col lg:flex-row lg:items-center lg:mx-auto lg:space-x-8 xl:space-x-16"
-                    :class="{ 'hidden': !navbarOpen, 'flex': navbarOpen }">
-
-                    <li class="font-semibold text-gray-900 text-lg hover:text-gray-400 transition mb-5 lg:mb-0">
-                        <a href="#">Home</a>
-                    </li>
-                    <li class="font-semibold text-gray-900 text-lg hover:text-gray-400 transition mb-5 lg:mb-0">
-                        <a href="#villa-list">Villa</a>
-                    </li>
-                    <li class="font-semibold text-gray-900 text-lg hover:text-gray-400 transition mb-5 lg:mb-0">
-                        <a href="#menu">Menu</a>
-                    </li>
-                    <li class="font-semibold text-gray-900 text-lg hover:text-gray-400 transition mb-5 lg:mb-0">
-                        <a href="#testimoni">Testimoni</a>
-                    </li>
-                    <li class="font-semibold text-gray-900 text-lg hover:text-gray-400 transition mb-5 lg:mb-0">
-                        <a href="#booking">Booking</a>
-                    </li>
-                    @auth
-                    @if (auth()->user()->hasRole('admin'))
-                        <li><a href="{{ route('admin.dashboard') }}">Dashboard Admin</a></li>
-                        <li><a href="{{ route('journal') }}">Journal</a></li>
-                    @else
-                        <li><a href="{{ route('journal') }}">Journal</a></li>
-                    @endif
-
-                    <!-- Tombol Logout sementara -->
-                    <li>
-                        <form action="{{ route('logout') }}" method="POST">
-                            @csrf
-                            <button type="submit" class="text-red-600 font-semibold hover:underline">Logout</button>
-                        </form>
-                    </li>
-                @else
-                    <li><a href="{{ route('login') }}">Login</a></li>
-                @endauth
-
-
-
-            </ul>
+        <!-- Tengah: Navigasi -->
+        <nav class="space-x-6 text-slate-700 font-medium">
+            <a href="#howitworks" class="hover:text-teal-600">How it works</a>
+            <a href="#faq" class="hover:text-teal-600">FAQ</a>
+            @auth
+                @if (auth()->user()->hasRole('admin'))
+                    <a href="{{ route('admin.dashboard') }}">Dashboard Admin</a>
+                @endif
+                <a href="{{ route('journal') }}">Journal</a>
+            @endauth
         </nav>
 
+        <!-- Kanan: Button -->
+        <div>
+            @auth
+                <form action="{{ route('logout') }}" method="POST">
+                    @csrf
+                    <button
+                        class="bg-orange-400 text-white font-semibold px-5 py-2 rounded-full hover:bg-orange-500 transition"
+                        type="submit">Logout</button>
+                </form>
+            @else
+                <a href="{{ route('login') }}">
+                    <button
+                        class="bg-orange-400 text-white font-semibold px-5 py-2 rounded-full hover:bg-orange-500 transition">
+                        Get Started
+                    </button>
+                </a>
+            @endauth
+        </div>
+    </header>
 
-        <div class="flex items-center justify-center xl:justify-start">
 
-            <div class="mt-28 text-center xl:text-left">
-                <h1 class="font-semibold text-4xl md:text-6xl lg:text-7xl text-gray-900 leading-normal mb-6">
-                    Warung
-                    Kebunqu</h1>
+    <!-- Hero section -->
+    <section
+        class="px-6 max-w-7xl mx-auto flex flex-col md:flex-row items-center md:items-start gap-12 md:gap-24 pb-20 pt-8 md:pt-16">
 
-                <p class="font-normal text-xl text-gray-400 leading-relaxed mb-12"> Nikmati Kopi dan Villa mu
-                    dengan
-                    bahagia
+        <div class="md:flex-1 max-w-xl">
+            <h1 class="text-4xl sm:text-5xl font-extrabold leading-tight mb-4">
+                Dive Deep <br /> into your mind
+            </h1>
+            <p class="text-lg text-slate-700 mb-6">MindSync is a journaling app that helps you observe your thoughts and
+                feelings deeply, understand your emotional patterns, and check your progress. It’s like a companion for
+                mental health.</p>
+            <form class="flex gap-3 mb-6" onsubmit="event.preventDefault(); alert('Search submitted!');"
+                aria-label="Search app features">
+                <input type="text" placeholder="Find" aria-label="Search input"
+                    class="flex-grow px-4 py-2 border border-slate-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-teal-400" />
+                <button type="submit"
+                    class="bg-teal-500 text-white px-6 rounded-lg font-semibold hover:bg-teal-600 transition">Search</button>
+            </form>
+        </div>
+
+        <div class="md:flex-1 flex justify-center relative">
+            <img src="{{ asset('img/frontend/homepage1/LogoJourney.png') }}"
+                alt="Stylized graphic of a dark orca whale swimming in circular motion in front of an orange sun on a pastel background"
+                class="max-w-full h-auto" onerror="this.style.display='none'" />
+        </div>
+    </section>
+
+    <!-- Wave divider -->
+    <div class="wave-bottom">
+        <svg viewBox="0 0 1440 80" preserveAspectRatio="none" aria-hidden="true">
+            <path d="M0,0 C480,60 960,0 1440,60 L1440,80 L0,80 Z"></path>
+        </svg>
+    </div>
+
+    <!-- How It Works -->
+    <section id="howitworks" class="max-w-7xl mx-auto px-6 py-20 bg-white rounded-t-3xl shadow-lg">
+        <h2 class="text-3xl text-center font-extrabold mb-14">How It Works?</h2>
+        <div class="grid gap-8 md:grid-cols-2 lg:grid-cols-4">
+            <article class="bg-[#F0F7F7] p-6 rounded-lg shadow hover:shadow-lg transition">
+                <div class="mb-3 flex items-center text-teal-700">
+                    <span class="font-bold mr-2">Step 1:</span> Journal Your Day
+                </div>
+                <p class="text-sm text-slate-700">Write about your emotions and experiences daily. This helps create
+                    awareness and builds the habit of self-reflection.</p>
+            </article>
+            <article class="bg-[#F0F7F7] p-6 rounded-lg shadow hover:shadow-lg transition">
+                <div class="mb-3 flex items-center text-teal-700">
+                    <span class="font-bold mr-2">Step 2:</span> Stay Consistent
+                </div>
+                <p class="text-sm text-slate-700">Make journaling a routine. Consistency brings clarity and helps track
+                    emotional progress over time.</p>
+            </article>
+            <article class="bg-[#F0F7F7] p-6 rounded-lg shadow hover:shadow-lg transition">
+                <div class="mb-3 flex items-center text-teal-700">
+                    <span class="font-bold mr-2">Step 3:</span> Spot Patterns
+                </div>
+                <p class="text-sm text-slate-700">Use analytics to identify recurring emotional triggers and themes in
+                    your life for better mental management.</p>
+            </article>
+            <article class="bg-[#F0F7F7] p-6 rounded-lg shadow hover:shadow-lg transition">
+                <div class="mb-3 flex items-center text-teal-700">
+                    <span class="font-bold mr-2">Step 4:</span> Share Progress
+                </div>
+                <p class="text-sm text-slate-700">Optionally share summaries or progress reports with coaches,
+                    therapists, or your support system.</p>
+            </article>
+        </div>
+    </section>
+
+    <!-- Discover Features -->
+    <section class="max-w-7xl mx-auto px-6 py-20 bg-[#ecf8f7] relative rounded-b-3xl shadow-inner">
+        <h2 class="text-3xl text-center font-extrabold mb-14">Discover Features</h2>
+        <p class="max-w-xl mx-auto text-center text-slate-700 mb-10">See what MindSync can do for your mental health &
+            well-being.</p>
+
+        <div class="grid gap-6 md:grid-cols-3 max-w-5xl mx-auto">
+            <!-- Fitur -->
+            <div class="bg-white rounded-lg p-5 shadow hover:shadow-lg transition">
+                <h3 class="font-semibold mb-1 flex items-center gap-2 text-teal-600">Voice Journaling</h3>
+                <p class="text-sm text-slate-700">Dictate your thoughts aloud to easily capture emotions without typing,
+                    perfect for busy moments.</p>
+            </div>
+
+            <div class="bg-white rounded-lg p-5 shadow hover:shadow-lg transition">
+                <h3 class="font-semibold mb-1 flex items-center gap-2 text-teal-600">Instant Analytics</h3>
+                <p class="text-sm text-slate-700">Real-time emotional pattern detection and sentiment analysis offer
+                    immediate insights.</p>
+            </div>
+
+            <div class="bg-white rounded-lg p-5 shadow hover:shadow-lg transition">
+                <h3 class="font-semibold mb-1 flex items-center gap-2 text-teal-600">Mood Tracker</h3>
+                <p class="text-sm text-slate-700">Track daily mood shifts and correlate them with your journaling for
+                    holistic mental health awareness.</p>
+            </div>
+
+            <div class="bg-white rounded-lg p-5 shadow hover:shadow-lg transition">
+                <h3 class="font-semibold mb-1 flex items-center gap-2 text-teal-600">Behavioral Analytics</h3>
+                <p class="text-sm text-slate-700">Identify behavioral trends with data-driven insights to inform therapy
+                    or coaching plans.</p>
+            </div>
+
+            <div class="bg-white rounded-lg p-5 shadow hover:shadow-lg transition">
+                <h3 class="font-semibold mb-1 flex items-center gap-2 text-teal-600">Shareable Summaries</h3>
+                <p class="text-sm text-slate-700">Create easy-to-understand summaries of your progress to share with
+                    trusted contacts.</p>
+            </div>
+
+            <div class="bg-white rounded-lg p-5 shadow hover:shadow-lg transition">
+                <h3 class="font-semibold mb-1 flex items-center gap-2 text-teal-600">Secure & Private</h3>
+                <p class="text-sm text-slate-700">Your data is encrypted and only accessible by you, ensuring privacy
+                    and security.</p>
+            </div>
+
+            <!-- Gambar di tengah -->
+            <div class="md:col-span-3 text-center pt-10">
+                <img src="{{ asset('img/frontend/homepage1/JourneyH2.jpeg') }}" alt="Journey Screenshot"
+                    class="mx-auto w-1/2 h-auto rounded-lg shadow" />
+            </div>
+        </div>
+    </section>
+
+
+    <!-- Wave divider -->
+    <div class="wave-top">
+        <svg viewBox="0 0 1440 80" preserveAspectRatio="none" aria-hidden="true">
+            <path d="M0,80 C480,20 960,80 1440,20 L1440,0 L0,0 Z"></path>
+        </svg>
+    </div>
+
+    <!-- What They Say About Us -->
+    <section class="max-w-7xl mx-auto px-6 py-20 bg-white rounded-t-3xl shadow-lg">
+        <h2 class="text-3xl text-center font-extrabold mb-12">What They Say About Us</h2>
+        <p class="text-center max-w-xl mx-auto text-slate-600 mb-12">We are trusted by users worldwide to enhance their
+            mental health journey.</p>
+
+        <div class="grid gap-8 md:grid-cols-2 max-w-5xl mx-auto">
+            <blockquote class="bg-slate-900 text-slate-100 p-6 rounded-lg shadow-lg">
+                <p>"MindSync transformed the way I understand my emotions. The voice journaling feature is a lifesaver
+                    for my busy days."</p>
+                <footer class="mt-4 font-semibold">– Alex P., Therapist</footer>
+            </blockquote>
+            <blockquote class="bg-slate-900 text-slate-100 p-6 rounded-lg shadow-lg">
+                <p>"The instant analytics help me spot behavioral patterns I never noticed before. Highly recommend for
+                    coaches."</p>
+                <footer class="mt-4 font-semibold">– Maria L., Life Coach</footer>
+            </blockquote>
+            <blockquote class="bg-slate-900 text-slate-100 p-6 rounded-lg shadow-lg">
+                <p>"Secure, private, and intuitive. MindSync is my go-to app for mental wellbeing tracking."</p>
+                <footer class="mt-4 font-semibold">– Jeremy W., User</footer>
+            </blockquote>
+            <blockquote class="bg-slate-900 text-slate-100 p-6 rounded-lg shadow-lg">
+                <p>"The shareable summaries make progress communication with my coach seamless and reassuring."</p>
+                <footer class="mt-4 font-semibold">– Linda K., Athlete</footer>
+            </blockquote>
+        </div>
+    </section>
+
+    <!-- Who Is It For -->
+    <section class="max-w-7xl mx-auto px-6 py-20 bg-[#ecf8f7] rounded-b-3xl shadow-inner">
+        <h2 class="text-3xl text-center font-extrabold mb-10">Who Is It For?</h2>
+        <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+
+            <details class="bg-white rounded-lg p-6 shadow cursor-pointer" aria-labelledby="therapy-label"
+                role="region">
+                <summary class="font-bold text-lg mb-3" id="therapy-label">Therapy</summary>
+                <p class="text-slate-700 text-sm">Ideal for individuals seeking structured self-awareness or
+                    supplementing professional therapy sessions to track progress and feelings over time.</p>
+            </details>
+
+            <details class="bg-white rounded-lg p-6 shadow cursor-pointer" aria-labelledby="coaching-label"
+                role="region">
+                <summary class="font-bold text-lg mb-3" id="coaching-label">Coaching & Business</summary>
+                <p class="text-slate-700 text-sm">Support emotional intelligence growth and monitor well-being to
+                    enhance productivity and leadership effectiveness within teams.</p>
+            </details>
+
+            <details class="bg-white rounded-lg p-6 shadow cursor-pointer" aria-labelledby="sport-label"
+                role="region">
+                <summary class="font-bold text-lg mb-3" id="sport-label">Sport</summary>
+                <p class="text-slate-700 text-sm">Athletes can optimize mental resilience and emotional control by
+                    logging their mood and reactions pre/post training or competition.</p>
+            </details>
+
+        </div>
+    </section>
+
+    <!-- Why MindSync? -->
+    <section class="max-w-7xl mx-auto px-6 py-20 bg-white rounded-t-3xl shadow-lg">
+        <h2 class="text-3xl text-center font-extrabold mb-10">Why MindSync?</h2>
+        <p class="max-w-3xl mx-auto text-center text-slate-700 mb-12">MindSync makes journaling easy and insightful.
+            Unlike regular journals or simple notebook trackers, MindSync uses advanced emotional detection and
+            summaries to help you understand yourself better and grow your mental wellness journey efficiently and
+            privately.</p>
+        <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-6 bg-orange-50 rounded-lg p-6 shadow-lg">
+
+            <div>
+                <h3 class="font-semibold mb-4 text-teal-700">MindSync Features</h3>
+                <ul class="space-y-3 text-slate-700 list-disc list-inside marker:text-teal-400">
+                    <li>Voice journaling to capture raw emotions quickly</li>
+                    <li>Instant analytics to reveal emotional patterns</li>
+                    <li>Behavioral insights to enhance self-awareness</li>
+                    <li>Data encryption ensuring your privacy and security</li>
+                </ul>
+            </div>
+
+            <div>
+                <h3 class="font-semibold mb-4 text-slate-500">Typical Journal Apps</h3>
+                <ul class="space-y-3 text-slate-500 list-disc list-inside marker:text-slate-300 line-through">
+                    <li>Manual typing only, no voice input</li>
+                    <li>No automatic emotional analytics</li>
+                    <li>Limited behavior tracking and insights</li>
+                    <li>Lack of privacy-focused encryption</li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing -->
+    <section class="max-w-7xl mx-auto px-6 py-20 bg-[#ecf8f7] rounded-b-3xl shadow-inner">
+        <h2 class="text-3xl text-center font-extrabold mb-10">Pricing</h2>
+        <p class="text-center max-w-xl mx-auto text-slate-700 mb-10">Choose the plan that fits you best.</p>
+        <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+
+            <div class="bg-white rounded-lg p-8 shadow hover:shadow-lg transition flex flex-col">
+                <h3 class="text-2xl font-bold mb-4">Free</h3>
+                <p class="flex-grow text-sm text-slate-700">Basic features with limited journaling entries per month,
+                    perfect for trying out the app.</p>
+                <ul class="mt-4 text-slate-700 space-y-2 list-disc list-inside">
+                    <li>Limited daily journaling</li>
+                    <li>Basic mood tracker</li>
+                    <li>Access to shareable summaries</li>
+                </ul>
+                <button
+                    class="mt-auto bg-teal-500 text-white py-2 rounded-lg mt-6 hover:bg-teal-600 transition font-semibold">Start
+                    For Free</button>
+            </div>
+
+            <div class="bg-slate-900 text-white rounded-lg p-8 shadow-lg flex flex-col border-4 border-orange-400">
+                <h3 class="text-2xl font-bold mb-4">Premium</h3>
+                <p class="text-lg mb-6">$17/month</p>
+                <p class="flex-grow text-sm">Unlock all features including unlimited entries, instant analytics,
+                    behavioral insights, and prioritized support.</p>
+                <ul class="mt-4 space-y-2 list-disc list-inside">
+                    <li>Unlimited journaling</li>
+                    <li>Advanced voice & behavioral analytics</li>
+                    <li>Secure, encrypted data storage</li>
+                    <li>Priority customer support</li>
+                </ul>
+                <button
+                    class="mt-auto bg-orange-400 text-white py-2 rounded-lg mt-6 hover:bg-orange-500 transition font-semibold">Create
+                    Premium</button>
+            </div>
+
+            <div class="bg-white rounded-lg p-8 shadow hover:shadow-lg transition flex flex-col">
+                <h3 class="text-2xl font-bold mb-4">Enterprise</h3>
+                <p class="flex-grow text-sm text-slate-700">Custom tailored solutions for organizations, therapy
+                    groups, and businesses requiring dedicated integration and support.</p>
+                <ul class="mt-4 text-slate-700 space-y-2 list-disc list-inside">
+                    <li>Team management tools</li>
+                    <li>Custom analytics dashboard</li>
+                    <li>Dedicated onboarding and support</li>
+                    <li>Enhanced data compliance</li>
+                </ul>
+                <button
+                    class="mt-auto bg-teal-900 text-white py-2 rounded-lg mt-6 hover:bg-teal-800 transition font-semibold">Contact
+                    Us</button>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- FAQ -->
+    <section id="faq" class="max-w-7xl mx-auto px-6 py-20 bg-white rounded-3xl shadow-lg">
+        <h2 class="text-3xl text-center font-extrabold mb-14">FAQ</h2>
+        <p class="max-w-xl mx-auto text-center text-slate-600 mb-10">We answer some common questions about MindSync.
+        </p>
+
+        <div class="max-w-4xl mx-auto space-y-6">
+
+            <details class="border border-slate-300 rounded-lg p-5 cursor-pointer" role="region"
+                aria-labelledby="q1">
+                <summary id="q1" class="font-semibold flex justify-between items-center">
+                    <span>How does the emotional analysis work?</span>
+                    <svg class="ml-4 w-6 h-6 transition-transform" fill="none" stroke="currentColor"
+                        stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"></path>
+                    </svg>
+                </summary>
+                <p class="mt-3 text-slate-700 text-sm">We use natural language processing algorithms to analyze your
+                    journal entries, detecting emotional keywords and sentiment trends.</p>
+            </details>
+
+            <details class="border border-slate-300 rounded-lg p-5 cursor-pointer" role="region"
+                aria-labelledby="q2" open>
+                <summary id="q2" class="font-semibold flex justify-between items-center">
+                    <span>Why did you choose to use emotions in the app?</span>
+                    <svg class="ml-4 w-6 h-6 transition-transform" fill="none" stroke="currentColor"
+                        stroke-width="2" viewBox="0 0 24 24" aria-hidden="true" style="transform: rotate(45deg);">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"></path>
+                    </svg>
+                </summary>
+                <p class="mt-3 text-slate-700 text-sm">Because emotions offer a strong and universal way to understand
+                    human mental states, allowing us to provide meaningful insights to users seeking mental wellness.
                 </p>
+            </details>
 
-                <!-- Wrapper untuk tombol -->
-            </div>
+            <details class="border border-slate-300 rounded-lg p-5 cursor-pointer" role="region"
+                aria-labelledby="q3">
+                <summary id="q3" class="font-semibold flex justify-between items-center">
+                    <span>Why does the AI ask so many questions?</span>
+                    <svg class="ml-4 w-6 h-6 transition-transform" fill="none" stroke="currentColor"
+                        stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"></path>
+                    </svg>
+                </summary>
+                <p class="mt-3 text-slate-700 text-sm">Asking questions encourages deeper reflection and richer data
+                    input, which helps improve the quality of emotional insights and recommendations.</p>
+            </details>
 
-
-            <div class="hidden xl:block z-0 right-0">
-                <img src="img/frontend/homepage1/fried-rice.jpg" alt="Home img"
-                    style="float: right; width: 50%; height: 50%; z-index: 10;">
-            </div>
-
+            <details class="border border-slate-300 rounded-lg p-5 cursor-pointer" role="region"
+                aria-labelledby="q4">
+                <summary id="q4" class="font-semibold flex justify-between items-center">
+                    <span>Do the developers see my conversations?</span>
+                    <svg class="ml-4 w-6 h-6 transition-transform" fill="none" stroke="currentColor"
+                        stroke-width="2" viewBox="0 0 24 24" aria-hidden="true">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M12 4v16m8-8H4"></path>
+                    </svg>
+                </summary>
+                <p class="mt-3 text-slate-700 text-sm">No, all your journal entries and voice data are encrypted and
+                    stored securely. Only you can access your personal data.</p>
+            </details>
         </div>
+    </section>
 
-    </div>
-    <!-- container.// -->
+    <!-- Final CTA -->
+    <section class="max-w-7xl mx-auto px-6 py-20 bg-orange-400 rounded-3xl mt-20 text-white text-center shadow-lg">
+        <h2 class="text-3xl font-extrabold mb-6">Let's stay synced</h2>
+        <p class="max-w-xl mx-auto mb-8">Subscribe to our newsletter for mental health tips, app updates, and exclusive
+            deals.</p>
+        <form class="max-w-lg mx-auto flex gap-4"
+            onsubmit="event.preventDefault(); alert('Subscribed: ' + this.email.value); this.email.value='';"
+            aria-label="Subscribe to newsletter">
+            <input id="email" name="email" type="email" placeholder="Enter your email address" required
+                class="flex-grow px-4 py-3 rounded-lg text-slate-900 font-medium focus:outline-none" />
+            <button type="submit"
+                class="bg-slate-900 hover:bg-slate-800 transition rounded-lg px-6 font-semibold">Subscribe</button>
+        </form>
+    </section>
 
-</section>
-<!-- home section //nd -->
+    <!-- Footer -->
+    <footer class="bg-slate-900 pt-14 pb-10 mt-20 text-slate-300">
+        <div class="max-w-7xl mx-auto px-6 grid grid-cols-1 md:grid-cols-4 gap-10">
 
-<!-- feature section -->
-<section class="bg-white py-10 md:py-16 xl:relative" id="villa-list">
-
-    <div class="container max-w-screen-xl mx-auto px-4">
-
-        <div class="flex flex-col xl:flex-row items-center justify-between">
-
-            <div class="hidden xl:block w-1/2">
-                <img src="img/frontend/homepage1/IMG_7106.jpeg" alt="Feature img"
-                    style="width: 80%; height: 80%; z-index: 10;">
-            </div>
-
-            <div class="w-full xl:w-1/2">
-
-                <h1
-                    class="font-semibold text-gray-900 text-xl md:text-4xl text-center xl:text-left leading-normal mb-6">
-                    Pilih Villa Kebunqu Untuk <br> Villa andalan mu
-                </h1>
-
-                <p class="font-normal text-gray-400 text-md md:text-xl text-center xl:text-left mb-16">
-                    Kami hadir untuk menghadirkan pengalaman menginap tak terlupakan di Villa Kebunqu. Nikmati
-                    fasilitas eksklusif yang kami sediakan, dan rasakan liburan penuh kebahagiaan bersama keluarga
-                    tercinta
-                </p>
-
-                <div class="flex flex-col md:flex-row justify-center xl:justify-start space-x-4 mb-20">
-                    <div
-                        class="px-8 h-20 mx-auto md:mx-0 bg-gray-200 rounded-lg flex items-center justify-center mb-5 md:mb-0">
-                        <i data-feather="check-circle" class=" text-green-900"></i>
-                    </div>
-
-                    <div class="text-center md:text-left">
-                        <h4 class="font-semibold text-gray-900 text-2xl mb-2">Kamar Premium, Fasilitas Maksimal
-                        </h4>
-                        <p class="font-normal text-gray-400 text-xl leading-relaxed">
-                            Kami meniamin kenyamanan keluarga Anda dengan kamar terbaik yang dilengkapi fasilitas
-                            mewah. Rasakan suasana yang menenangkan dan nikmati setiar, momen istimewa di Villa
-                            Kebunqu.
-                        </p>
-                    </div>
-                </div>
-
-                <div class="flex flex-col md:flex-row justify-center xl:justify-start space-x-4 mb-20">
-                    <div
-                        class="px-8 h-20 mx-auto md:mx-0 bg-gray-200 rounded-lg flex items-center justify-center mb-5 md:mb-0">
-                        <i data-feather="lock" class=" text-green-900"></i>
-                    </div>
-
-                    <div class="text-center md:text-left">
-                        <h4 class="font-semibold text-gray-900 text-2xl mb-2">Keamanan dan Privasi Dijamin 100%
-                        </h4>
-                        <p class="font-normal text-gray-400 text-xl leading-relaxed">
-                            Nikmati kemudahan transaksi dan privasi yang teriaga sepenuhnya. Kami menawarkan
-                            keamanan transaksi yang terjamin serta diskon menarik yang bisa Anda dapatkan.
-                        </p>
-                    </div>
-                </div>
-
-                <div class="flex flex-col md:flex-row justify-center xl:justify-start space-x-4">
-                    <div
-                        class="px-8 h-20 mx-auto md:mx-0 bg-gray-200 rounded-lg flex items-center justify-center mb-5 md:mb-0">
-                        <i data-feather="credit-card" class=" text-green-900"></i>
-                    </div>
-
-                    <div class="text-center md:text-left">
-                        <h4 class="font-semibold text-gray-900 text-2xl mb-2">Harga Terjangkau, Pemandangan Memukau
-                        </h4>
-                        <p class="font-normal text-gray-400 text-xl leading-relaxed">
-                            Dapatkan villa dengan harga bersahabat dan view alam yang memukau. Cocok untuk liburan
-                            akhir pekan yang hangat bersama keluarga. Pesan sekarang dan rasakan sensasi liburan
-                            berkualitas di Villa Kebunqu!
-                        </p>
-                    </div>
-                </div>
-
-            </div>
-
-        </div>
-
-
-    </div>
-    <!-- container.// -->
-
-</section>
-<!-- feature section //end -->
-
-<div class="container mx-auto px-2 pt-3" id="menu">
-    <h1 class="text-3xl font-bold text-center mb-4">Price List</h1>
-
-    <div class="flex flex-col md:flex-row justify-center gap-6">
-
-        <!-- Starter Plan Card -->
-        <div
-            class="bg-white shadow-md rounded-2xl p-6 w-full md:w-96 border border-gray-200 hover:shadow-xl transition">
-            <div class="flex items-center space-x-3 mb-4">
-                <div class="bg-gray-100 rounded-full w-10 h-10 flex items-center justify-center">
-                    <i class="fa-solid fa-user text-gray-400"></i>
-                </div>
-                <div>
-                    <h2 class="text-xl font-semibold text-gray-900">Starter</h2>
-                    <p class="text-gray-500 text-sm">Perfect for new users</p>
-                </div>
-            </div>
-            <ul class="text-gray-700 mb-6 space-y-2">
-                <li class="flex items-center"><i class="fa-solid fa-check-circle text-green-600 mr-2"></i> 1,000
-                    Search Credits</li>
-                <li class="flex items-center"><i class="fa-solid fa-check-circle text-green-600 mr-2"></i> No
-                    Commitment</li>
-                <li class="flex items-center"><i class="fa-solid fa-check-circle text-green-600 mr-2"></i> Full
-                    Access</li>
-            </ul>
-            <div class="text-3xl font-bold text-gray-900 mb-2">$0<span class="text-base font-normal">/mo</span>
-            </div>
-            <button
-                class="w-full py-3 bg-white border border-gray-300 text-gray-800 rounded-xl hover:bg-gray-100 transition">
-                Start Trial
-            </button>
-        </div>
-
-        <!-- Unlimited Plan Card -->
-        <div
-            class="bg-white shadow-md rounded-2xl p-6 w-full md:w-96 border-2 border-blue-500 hover:shadow-xl transition">
-            <div class="flex items-center space-x-3 mb-4">
-                <div class="bg-blue-100 rounded-full w-10 h-10 flex items-center justify-center">
-                    <i class="fa-solid fa-star text-blue-500"></i>
-                </div>
-                <div>
-                    <h2 class="text-xl font-semibold text-gray-900">Unlimited</h2>
-                    <p class="text-gray-500 text-sm">Perfect for seasoned advertisers</p>
-                </div>
-            </div>
-            <ul class="text-gray-700 mb-6 space-y-2">
-                <li class="flex items-center"><i class="fa-solid fa-check-circle text-green-600 mr-2"></i> 160+
-                    Million Ads</li>
-                <li class="flex items-center"><i class="fa-solid fa-check-circle text-green-600 mr-2"></i>
-                    Demographics</li>
-                <li class="flex items-center"><i class="fa-solid fa-check-circle text-green-600 mr-2"></i>
-                    Enhanced
-                    Search</li>
-            </ul>
-            <div class="text-3xl font-bold text-gray-900 mb-2">$149<span class="text-base font-normal">/mo</span>
-            </div>
-            <button class="w-full py-3 bg-blue-600 text-white rounded-xl hover:bg-blue-700 transition">
-                Subscribe
-            </button>
-        </div>
-
-    </div>
-</div>
-
-
-<!-- book section //end -->
-
-<!-- footer -->
-<footer class="bg-white py-10 md:py-16 ">
-
-    <div class="container max-w-screen-xl mx-auto px-4 ">
-
-        <div class="flex flex-col lg:flex-row justify-between ">
-            <div class="text-center lg:text-left mb-10 lg:mb-0 ">
-                <div class="flex justify-center lg:justify-start mb-5 ">
-                    <img src="img/frontend/homepage1/Logo.png " alt="Logo img " class="w-32 md:w-48 lg:w-56 ">
-                </div>
-
-                <p class="font-light text-gray-400 text-xl mb-10 ">Temukan Villa nyaman dan Kopi terbaik di <br>
-                    Warung Kebunqu</p>
-
-                <div class="flex items-center justify-center lg:justify-start space-x-5 ">
-                    <a href="# "
-                        class="px-3 py-3 bg-gray-200 text-gray-700 rounded-full hover:bg-green-800 hover:text-white transition ease-in-out duration-500 ">
-                        <i data-feather="facebook "></i>
+            <div class="space-y-6">
+                <div class="text-white font-bold text-lg select-none cursor-default">MindSync</div>
+                <p class="text-sm max-w-xs">Making mental wellness journaling easy, insightful, and private across
+                    devices and life stages.</p>
+                <div class="flex space-x-6 mt-2">
+                    <a href="#" aria-label="Twitter" class="hover:text-white transition" title="Twitter">
+                        <img src="https://placehold.co/24x24?text=T" alt="Twitter social icon letter T"
+                            onerror="this.style.display='none'" />
                     </a>
-
-                    <a href="# "
-                        class="px-3 py-3 bg-gray-200 text-gray-700 rounded-full hover:bg-green-800 hover:text-white transition ease-in-out duration-500 ">
-                        <i data-feather="twitter "></i>
+                    <a href="#" aria-label="Facebook" class="hover:text-white transition" title="Facebook">
+                        <img src="https://placehold.co/24x24?text=F" alt="Facebook social icon letter F"
+                            onerror="this.style.display='none'" />
                     </a>
-
-                    <a href="# "
-                        class="px-3 py-3 bg-gray-200 text-gray-700 rounded-full hover:bg-green-800 hover:text-white transition ease-in-out duration-500 ">
-                        <i data-feather="linkedin "></i>
+                    <a href="#" aria-label="LinkedIn" class="hover:text-white transition" title="LinkedIn">
+                        <img src="https://placehold.co/24x24?text=L" alt="LinkedIn social icon letter L"
+                            onerror="this.style.display='none'" />
+                    </a>
+                    <a href="#" aria-label="Instagram" class="hover:text-white transition" title="Instagram">
+                        <img src="https://placehold.co/24x24?text=I" alt="Instagram social icon letter I"
+                            onerror="this.style.display='none'" />
                     </a>
                 </div>
             </div>
 
-            <div class="text-center lg:text-left mb-10 lg:mb-0 ">
-                <h4 class="font-semibold text-gray-900 text-2xl mb-6 ">Sitemap</h4>
-
-                <a href="# "
-                    class="block font-light text-gray-400 text-xl mb-6 hover:text-gray-800 transition ease-in-out duration-300 ">Home</a>
-
-                <a href="#villa-list"
-                    class="block font-light text-gray-400 text-xl mb-6 hover:text-gray-800 transition ease-in-out duration-300 ">Villa</a>
-
-                <a href="#menu"
-                    class="block font-light text-gray-400 text-xl mb-6 hover:text-gray-800 transition ease-in-out duration-300 ">Menu</a>
-
-                <a href="#testimoni"
-                    class="block font-light text-gray-400 text-xl mb-6 hover:text-gray-800 transition ease-in-out duration-300 ">Testimoni</a>
-
-                <a href="#booking"
-                    class="block font-light text-gray-400 text-xl mb-6 hover:text-gray-800 transition ease-in-out duration-300 ">About</a>
+            <div>
+                <h4 class="text-white font-semibold mb-4">Company</h4>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="#" class="hover:text-white transition">About us</a></li>
+                    <li><a href="#" class="hover:text-white transition">Careers</a></li>
+                    <li><a href="#" class="hover:text-white transition">Blog</a></li>
+                    <li><a href="#" class="hover:text-white transition">Press</a></li>
+                </ul>
             </div>
+
+            <div>
+                <h4 class="text-white font-semibold mb-4">Support</h4>
+                <ul class="space-y-2 text-sm">
+                    <li><a href="#" class="hover:text-white transition">Help Center</a></li>
+                    <li><a href="#" class="hover:text-white transition">Privacy Policy</a></li>
+                    <li><a href="#" class="hover:text-white transition">Terms of Service</a></li>
+                    <li><a href="#" class="hover:text-white transition">Contact Us</a></li>
+                </ul>
+            </div>
+
+            <div>
+                <h4 class="text-white font-semibold mb-4">Download App</h4>
+                <div class="flex flex-col space-y-4">
+                    <a href="#" aria-label="Download on Google Play"
+                        class="inline-flex items-center bg-slate-800 rounded-lg text-white px-4 py-2 hover:bg-slate-700 transition">
+                        <img src="https://placehold.co/24x24?text=G" alt="Google Play icon" class="h-6 w-6 mr-3"
+                            onerror="this.style.display='none'" />
+                        <span>Google Play</span>
+                    </a>
+                    <a href="#" aria-label="Download on App Store"
+                        class="inline-flex items-center bg-slate-800 rounded-lg text-white px-4 py-2 hover:bg-slate-700 transition">
+                        <img src="https://placehold.co/24x24?text=A" alt="App Store icon" class="h-6 w-6 mr-3"
+                            onerror="this.style.display='none'" />
+                        <span>App Store</span>
+                    </a>
+                </div>
+            </div>
+
         </div>
+        <div class="text-center mt-10 text-slate-500 text-sm select-none">&copy; 2024 MindSync Inc. All rights
+            reserved.</div>
+    </footer>
 
-    </div>
-    <!-- container.// -->
-
-</footer>
-<!-- footer //end -->
-
-<script>
-    // Get the button
-    const backToTopBtn = document.getElementById("backToTopBtn");
-
-    // When the user scrolls down 100px from the top of the document, show the button
-    window.onscroll = function() {
-        if (document.body.scrollTop > 100 || document.documentElement.scrollTop > 100) {
-            backToTopBtn.classList.remove("hidden");
-        } else {
-            backToTopBtn.classList.add("hidden");
-        }
-    };
-
-    // When the user clicks on the button, scroll to the top of the document
-    backToTopBtn.addEventListener("click", function() {
-        window.scrollTo({
-            top: 0,
-            behavior: "smooth"
-        });
-    });
-</script>
-
-<script>
-    feather.replace()
-</script>
 </body>
 
 </html>
