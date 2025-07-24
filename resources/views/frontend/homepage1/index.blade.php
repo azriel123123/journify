@@ -59,11 +59,15 @@
         <nav class="space-x-6 text-slate-700 font-medium">
             <a href="#howitworks" class="hover:text-teal-600">How it works</a>
             <a href="#faq" class="hover:text-teal-600">FAQ</a>
+
             @auth
                 @if (auth()->user()->hasRole('admin'))
-                    <a href="{{ route('admin.dashboard') }}">Dashboard Admin</a>
+                    <a href="{{ route('admin.dashboard') }}" class="hover:text-teal-600">Dashboard Admin</a>
                 @endif
-                <a href="{{ route('journal') }}">Journal</a>
+
+                @if (auth()->user()->status == 'paid')
+                    <a href="{{ route('journal') }}" class="hover:text-teal-600">Journal</a>
+                @endif
             @endauth
         </nav>
 
@@ -306,58 +310,64 @@
     </section>
 
     <!-- Pricing -->
-    <section class="max-w-7xl mx-auto px-6 py-20 bg-[#ecf8f7] rounded-b-3xl shadow-inner">
-        <h2 class="text-3xl text-center font-extrabold mb-10">Pricing</h2>
-        <p class="text-center max-w-xl mx-auto text-slate-700 mb-10">Choose the plan that fits you best.</p>
-        <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
+    @if (!auth()->check() || auth()->user()->status == 'unpaid')
+        <section class="max-w-7xl mx-auto px-6 py-20 bg-[#ecf8f7] rounded-b-3xl shadow-inner">
+            <h2 class="text-3xl text-center font-extrabold mb-10">Pricing</h2>
+            <p class="text-center max-w-xl mx-auto text-slate-700 mb-10">Choose the plan that fits you best.</p>
+            <div class="max-w-5xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-8">
 
-            <div class="bg-white rounded-lg p-8 shadow hover:shadow-lg transition flex flex-col">
-                <h3 class="text-2xl font-bold mb-4">Free</h3>
-                <p class="flex-grow text-sm text-slate-700">Basic features with limited journaling entries per month,
-                    perfect for trying out the app.</p>
-                <ul class="mt-4 text-slate-700 space-y-2 list-disc list-inside">
-                    <li>Limited daily journaling</li>
-                    <li>Basic mood tracker</li>
-                    <li>Access to shareable summaries</li>
-                </ul>
-                <button
-                    class="mt-auto bg-teal-500 text-white py-2 rounded-lg mt-6 hover:bg-teal-600 transition font-semibold">Start
-                    For Free</button>
+                <div class="bg-white rounded-lg p-8 shadow hover:shadow-lg transition flex flex-col">
+                    <h3 class="text-2xl font-bold mb-4">Free</h3>
+                    <p class="flex-grow text-sm text-slate-700">Basic features with limited journaling entries per
+                        month,
+                        perfect for trying out the app.</p>
+                    <ul class="mt-4 text-slate-700 space-y-2 list-disc list-inside">
+                        <li>Limited daily journaling</li>
+                        <li>Basic mood tracker</li>
+                        <li>Access to shareable summaries</li>
+                    </ul>
+                    <button
+                        class="mt-auto bg-teal-500 text-white py-2 rounded-lg mt-6 hover:bg-teal-600 transition font-semibold">
+                        Start For Free
+                    </button>
+                </div>
+
+                <div class="bg-slate-900 text-white rounded-lg p-8 shadow-lg flex flex-col border-4 border-orange-400">
+                    <h3 class="text-2xl font-bold mb-4">Premium</h3>
+                    <p class="text-lg mb-6">$17/month</p>
+                    <p class="flex-grow text-sm">Unlock all features including unlimited entries, instant analytics,
+                        behavioral insights, and prioritized support.</p>
+                    <ul class="mt-4 space-y-2 list-disc list-inside">
+                        <li>Unlimited journaling</li>
+                        <li>Advanced voice & behavioral analytics</li>
+                        <li>Secure, encrypted data storage</li>
+                        <li>Priority customer support</li>
+                    </ul>
+                    <button id="pay-button"
+                        class="mt-auto bg-orange-400 text-white py-2 rounded-lg mt-6 hover:bg-orange-500 transition font-semibold">
+                        Create Premium
+                    </button>
+                </div>
+
+                <div class="bg-white rounded-lg p-8 shadow hover:shadow-lg transition flex flex-col">
+                    <h3 class="text-2xl font-bold mb-4">Enterprise</h3>
+                    <p class="flex-grow text-sm text-slate-700">Custom tailored solutions for organizations, therapy
+                        groups, and businesses requiring dedicated integration and support.</p>
+                    <ul class="mt-4 text-slate-700 space-y-2 list-disc list-inside">
+                        <li>Team management tools</li>
+                        <li>Custom analytics dashboard</li>
+                        <li>Dedicated onboarding and support</li>
+                        <li>Enhanced data compliance</li>
+                    </ul>
+                    <button
+                        class="mt-auto bg-teal-900 text-white py-2 rounded-lg mt-6 hover:bg-teal-800 transition font-semibold">
+                        Contact Us
+                    </button>
+                </div>
+
             </div>
-
-            <div class="bg-slate-900 text-white rounded-lg p-8 shadow-lg flex flex-col border-4 border-orange-400">
-                <h3 class="text-2xl font-bold mb-4">Premium</h3>
-                <p class="text-lg mb-6">$17/month</p>
-                <p class="flex-grow text-sm">Unlock all features including unlimited entries, instant analytics,
-                    behavioral insights, and prioritized support.</p>
-                <ul class="mt-4 space-y-2 list-disc list-inside">
-                    <li>Unlimited journaling</li>
-                    <li>Advanced voice & behavioral analytics</li>
-                    <li>Secure, encrypted data storage</li>
-                    <li>Priority customer support</li>
-                </ul>
-                <button
-                    class="mt-auto bg-orange-400 text-white py-2 rounded-lg mt-6 hover:bg-orange-500 transition font-semibold">Create
-                    Premium</button>
-            </div>
-
-            <div class="bg-white rounded-lg p-8 shadow hover:shadow-lg transition flex flex-col">
-                <h3 class="text-2xl font-bold mb-4">Enterprise</h3>
-                <p class="flex-grow text-sm text-slate-700">Custom tailored solutions for organizations, therapy
-                    groups, and businesses requiring dedicated integration and support.</p>
-                <ul class="mt-4 text-slate-700 space-y-2 list-disc list-inside">
-                    <li>Team management tools</li>
-                    <li>Custom analytics dashboard</li>
-                    <li>Dedicated onboarding and support</li>
-                    <li>Enhanced data compliance</li>
-                </ul>
-                <button
-                    class="mt-auto bg-teal-900 text-white py-2 rounded-lg mt-6 hover:bg-teal-800 transition font-semibold">Contact
-                    Us</button>
-            </div>
-
-        </div>
-    </section>
+        </section>
+    @endif
 
     <!-- FAQ -->
     <section id="faq" class="max-w-7xl mx-auto px-6 py-20 bg-white rounded-3xl shadow-lg">
@@ -508,6 +518,45 @@
             reserved.</div>
     </footer>
 
+    {{-- Midtrans --}}
+ <script src="https://app.sandbox.midtrans.com/snap/snap.js" data-client-key="Mid-client-f7GuPo7TCLutIMGM"></script>
+<script>
+    document.getElementById('pay-button').addEventListener('click', function() {
+        fetch('/payment/token', {
+                method: 'POST',
+                headers: {
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}',
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({})
+            })
+            .then(response => response.json())
+            .then(data => {
+                if (data.token) {
+                    window.snap.pay(data.token, {
+                        onSuccess: function() {
+                            window.location.href = "{{ route('journal') }}";
+                        },
+                        onPending: function() {
+                            window.location.href = "{{ url('/') }}";
+                        },
+                        onError: function() {
+                            window.location.href = "{{ url('/') }}";
+                        },
+                        onClose: function() {
+                            alert('Kamu belum menyelesaikan pembayaran!');
+                        }
+                    });
+                } else {
+                    alert('Gagal mendapatkan token');
+                }
+            })
+            .catch(error => {
+                console.error('Error saat ambil token:', error);
+            });
+    });
+</script>
 </body>
 
 </html>

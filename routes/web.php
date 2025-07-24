@@ -8,6 +8,7 @@ use App\Http\Controllers\Admin\CategoryController;
 use App\Http\Controllers\Admin\QuestionController;
 use App\Http\Controllers\Admin\LaguController;
 use App\Http\Controllers\Admin\QuoteController;
+use App\Http\Controllers\PaymentController;
 use Laravel\Fortify\Http\Controllers\AuthenticatedSessionController;
 use Laravel\Fortify\Http\Controllers\RegisteredUserController;
 
@@ -20,7 +21,8 @@ use Laravel\Fortify\Http\Controllers\RegisteredUserController;
 // Halaman homepage1 (sebelum login)
 Route::get('/', function () {
     return view('frontend.homepage1.index');
-});
+})->name('/homepage');
+
 
 // Route login dan register pakai Fortify (GET View)
 Route::get('/login', [AuthenticatedSessionController::class, 'create'])->name('login');
@@ -40,7 +42,11 @@ Route::post('/register', [RegisteredUserController::class, 'store']);
 Route::middleware('auth')->group(function () {
     Route::get('/journal', [frontEndController::class, 'index'])->name('journal');
     Route::get('/home', [HomeController::class, 'index'])->name('home');
-     // Route ini untuk ganti lagu yang sedang diputar
+
+    // Midtrans
+    Route::post('/payment/token', [PaymentController::class, 'getSnapToken'])->name('payment.token');
+
+    // Route ini untuk ganti lagu yang sedang diputar
     Route::get('/journal/play/{id}', [frontEndController::class, 'play'])->name('journal.play');
     Route::get('/journal/create', [frontEndController::class, 'create'])->name('journal.create');
     Route::post('/journal/store', [frontEndController::class, 'store'])->name('journal.store');
@@ -64,4 +70,3 @@ Route::middleware(['auth', 'role:admin'])->prefix('admin')->group(function () {
     Route::resource('song', LaguController::class);
     Route::resource('quote', QuoteController::class);
 });
- 
